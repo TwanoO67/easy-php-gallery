@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+   thumbor:
+     #name: phpgallery_thumbor
+     image: apsl/thumbor
+     ports:
+       - "180:8000"
+     restart: always
+
+   php:
+     #name: phpgallery_php
+     depends_on:
+       - thumbor
+     image: php:7.1-apache
+     ports:
+       - "100:80"
+     volumes:
+     - ./phpgallery:/var/www/html
+     - /my/own/photo/dir/:/var/www/html/data
+     restart: always
+     links: 
+       - thumbor
