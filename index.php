@@ -97,16 +97,17 @@ function human_filesize($bytes, $decimals = 2) {
 		//on passe les liens pointé
 		if($fileInfo->isDot()) continue;
 		//on creer des liens pour les dossiers
-		if($fileInfo->isDir()){ ?>
+		if($fileInfo->isDir()){ 
+			
+			$dir_link = "http://".$self_url."?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename());
+		?>
 			<figure class="effect-oscar  wowload fadeInUp">
 	        	<img src="/images/folder.png" style="margin-left: auto; margin-right: auto;" alt="dossier"/>
 		        <figcaption>
-		            <h2><?php echo $fileInfo->getFilename(); ?></h2>
+		            <h2 onclick="document.location='<?php echo $dir_link ?>'"><?php echo $fileInfo->getFilename(); ?></h2>
 		            <p>
 			            <?php echo date($format_date,$fileInfo->getMTime()); ?><br>
-						<a 
-							href="<?php echo "http://".$self_url."?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename()) ?>" 
-							title="<?php echo $fileInfo->getFilename() ?>">
+						<a href="<?php echo $dir_link ?>" title="<?php echo $fileInfo->getFilename() ?>">
 							Ouvrir le dossier
 						</a>
 		            </p>            
