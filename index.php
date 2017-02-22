@@ -1,6 +1,5 @@
 <?php
-$self_url = $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
-$thumbor_url = $_SERVER['SERVER_NAME'].":180/unsafe/";
+$thumbor_url = "/convert/unsafe/";
 $format_date = "Y/m/d G:i:s";
 
 $title = "Gallerie Photo";
@@ -26,7 +25,7 @@ function human_filesize($bytes, $decimals = 2) {
 
 function getImgLink($file,$resolution=""){
 	global $cur_dir,$thumbor_url;
-	return "http://".$thumbor_url.$resolution.'/'.urlencode(substr($cur_dir,1).'/'.$file->getFilename());
+	return $thumbor_url.$resolution.'/'.urlencode(substr($cur_dir,1).'/'.$file->getFilename());
 }
 
 ?>
@@ -104,7 +103,7 @@ function getImgLink($file,$resolution=""){
 		//on creer des liens pour les dossiers
 		if($fileInfo->isDir()){
 
-			$dir_link = "http://".$self_url."?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename());
+			$dir_link = "/?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename());
 		?>
 			<figure class="effect-oscar  wowload fadeInUp">
 	        	<img src="/images/folder.png" style="margin-left: auto; margin-right: auto;" alt="dossier"/>
