@@ -11,7 +11,7 @@ services:
        - FILE_LOADER_ROOT_PATH=/mydata/
        - LOADER=thumbor.loaders.file_loader
        - RESULT_STORAGE_STORES_UNSAFE=true
-       - STORAGE=None
+       - STORAGE=thumbor.storages.no_storage
        - RESULT_STORAGE=thumbor.storages.file_storage
      restart: always
 
