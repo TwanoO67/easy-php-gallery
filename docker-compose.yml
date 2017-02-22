@@ -3,8 +3,6 @@ services:
    thumbor:
      #name: phpgallery_thumbor
      image: apsl/thumbor
-     ports:
-       - "180:8000"
      volumes:
        - ${PHOTO_DIR}:/mydata
      environment:
@@ -19,11 +17,21 @@ services:
      depends_on:
        - thumbor
      image: php:7.1-apache
-     ports:
-       - "${APP_PORT}:80"
      volumes:
      - .:/var/www/html
      - ${PHOTO_DIR}:/mydata
      restart: always
+
+   nginx:
+     #name: phpgallery_nginx
+     depends_on:
+       - php
+     image: nginx:stable-alpine
+     ports:
+       - "${APP_PORT}:80"
+     volumes:
+       - ./confnginx:/etc/nginx/conf.d
+     restart: always
      links:
        - thumbor
+       - php
