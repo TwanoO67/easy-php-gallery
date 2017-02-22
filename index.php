@@ -24,6 +24,11 @@ function human_filesize($bytes, $decimals = 2) {
     return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
 }
 
+function getImgLink($file,$resolution=""){
+	global $cur_dir,$thumbor_url;
+	return "http://".$thumbor_url.$resolution.$cur_dir.'/'.$file->getFilename();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -132,23 +137,23 @@ function human_filesize($bytes, $decimals = 2) {
 
 		//on recupere la premiere image pour s'en servir de fond d'ecran pour l'album
 		if(!$first){
-			$first = "http://".$thumbor_url."1200x375".$cur_dir.'/'.$fileInfo->getFilename();
+			$first = getImgLink($fileInfo,"1200x375");
 		}
 		?>
 		<figure class="effect-oscar  wowload fadeInUp">
-	        <img src="<?php echo "http://".$thumbor_url."400x275".$cur_dir.'/'.$fileInfo->getFilename() ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
+	        <img src="<?php echo getImgLink($fileInfo,"400x275") ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
 	        <figcaption>
 	            <!--h2><?php echo $fileInfo->getFilename(); ?></h2-->
 	            <p>
 		            <?php echo $fileInfo->getFilename(); ?><br>
 		            <?php echo $mimetype; ?><br>
 		            <?php echo date($format_date,$fileInfo->getMTime()); ?><br>
-					<?php echo human_filesize($fileInfo->getSize()); ?><br>
-					<a
-						href="<?php echo "http://".$thumbor_url."1940x1296".$cur_dir.'/'.$fileInfo->getFilename() ?>"
-						title="<?php echo $fileInfo->getFilename() ?>" data-gallery>
-						Agrandir
-					</a>
+								<?php echo human_filesize($fileInfo->getSize()); ?><br>
+								<a
+									href="<?php echo getImgLink($fileInfo,"1940x1296") ?>"
+									title="<?php echo $fileInfo->getFilename() ?>" data-gallery>
+									Agrandir
+								</a>
 	            </p>
 	        </figcaption>
 	    </figure>
