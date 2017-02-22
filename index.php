@@ -5,7 +5,7 @@ $format_date = "Y/m/d G:i:s";
 
 $title = "Gallerie Photo";
 
-$base_dir = "/data";
+$base_dir = "/mydata";
 if( isset($_GET['dir'])){
 	$cur_dir = base64_decode($_GET['dir']);
 	$title = "Gallerie ".str_replace($base_dir, '', $cur_dir);
@@ -26,7 +26,7 @@ function human_filesize($bytes, $decimals = 2) {
 
 function getImgLink($file,$resolution=""){
 	global $cur_dir,$thumbor_url;
-	return "http://".$thumbor_url.$resolution.$cur_dir.'/'.$file->getFilename();
+	return "http://".$thumbor_url.$resolution.'/'.urlencode(substr($cur_dir,1).'/'.$file->getFilename());
 }
 
 ?>
@@ -98,7 +98,7 @@ function getImgLink($file,$resolution=""){
 
 <?php
 	//on commence par listé les dossier
-	foreach (new DirectoryIterator('.'.$base_dir.'/'.$cur_dir) as $fileInfo) {
+	foreach (new DirectoryIterator($base_dir.'/'.$cur_dir) as $fileInfo) {
 		//on passe les liens pointé
 		if($fileInfo->isDot()) continue;
 		//on creer des liens pour les dossiers
@@ -124,7 +124,7 @@ function getImgLink($file,$resolution=""){
 
 
 	$first = false;
-	foreach (new DirectoryIterator('.'.$base_dir.'/'.$cur_dir) as $fileInfo) {
+	foreach (new DirectoryIterator($base_dir.'/'.$cur_dir) as $fileInfo) {
 		//on passe les liens pointé
 		if($fileInfo->isDot()) continue;
 		//on passe les dossiers
