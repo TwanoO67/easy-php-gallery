@@ -70,7 +70,7 @@ function getImgLink($file,$resolution=""){
 <div id="home">
 <!-- Slider Starts -->
 <div class="banner">
-          <img id="fondecran" src="images/back.jpg" alt="banner" class="img-responsive">
+          <img id="fondecran" src="images/back.jpg" alt="banner" class="img-responsive" style="margin-left: auto; margin-right: auto;">
           <div class="caption">
             <div class="caption-wrapper">
               <div class="caption-info">
@@ -137,11 +137,11 @@ function getImgLink($file,$resolution=""){
 
 		//on recupere la premiere image pour s'en servir de fond d'ecran pour l'album
 		if(!$first){
-			$first = getImgLink($fileInfo,"1200x375");
+			$first = getImgLink($fileInfo,"1920x700");
 		}
 		?>
-		<figure class="effect-oscar  wowload fadeInUp">
-	        <img src="<?php echo getImgLink($fileInfo,"400x275") ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
+		<figure class="effect-oscar wowload fadeInUp">
+	        <img src="<?php echo getImgLink($fileInfo,"640x360") ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
 	        <figcaption>
 	            <!--h2><?php echo $fileInfo->getFilename(); ?></h2-->
 	            <p>
@@ -150,7 +150,7 @@ function getImgLink($file,$resolution=""){
 		            <?php echo date($format_date,$fileInfo->getMTime()); ?><br>
 								<?php echo human_filesize($fileInfo->getSize()); ?><br>
 								<a
-									href="<?php echo getImgLink($fileInfo,"1940x1296") ?>"
+									href="<?php echo getImgLink($fileInfo,"1920x1080") ?>"
 									title="<?php echo $fileInfo->getFilename() ?>" data-gallery>
 									Agrandir
 								</a>
