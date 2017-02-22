@@ -4,14 +4,14 @@ $thumbor_url = $_SERVER['SERVER_NAME'].":180/unsafe/";
 $format_date = "Y/m/d G:i:s";
 
 $title = "Gallerie Photo";
-$base_dir = "/data";
 
+$base_dir = "/data";
 if( isset($_GET['dir'])){
 	$cur_dir = base64_decode($_GET['dir']);
 	$title = "Gallerie ".str_replace($base_dir, '', $cur_dir);
 }
 else{
-	$cur_dir = $base_dir;
+	$cur_dir = "";
 }
 
 
@@ -68,7 +68,7 @@ function human_filesize($bytes, $decimals = 2) {
           <img id="fondecran" src="images/back.jpg" alt="banner" class="img-responsive">
           <div class="caption">
             <div class="caption-wrapper">
-              <div class="caption-info">              
+              <div class="caption-info">
               <!--img src="images/profile.jpg" class="img-circle profile"-->
               <h1 class="animated bounceInUp"><?php echo $title; ?></h1>
               <!--p class="animated bounceInLeft">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
@@ -89,16 +89,16 @@ function human_filesize($bytes, $decimals = 2) {
 
 
 <!-- works -->
-<div id="works"  class=" clearfix grid"> 
+<div id="works"  class=" clearfix grid">
 
-<?php 
+<?php
 	//on commence par listé les dossier
-	foreach (new DirectoryIterator('.'.$cur_dir) as $fileInfo) {
+	foreach (new DirectoryIterator('.'.$base_dir.'/'.$cur_dir) as $fileInfo) {
 		//on passe les liens pointé
 		if($fileInfo->isDot()) continue;
 		//on creer des liens pour les dossiers
-		if($fileInfo->isDir()){ 
-			
+		if($fileInfo->isDir()){
+
 			$dir_link = "http://".$self_url."?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename());
 		?>
 			<figure class="effect-oscar  wowload fadeInUp">
@@ -110,33 +110,33 @@ function human_filesize($bytes, $decimals = 2) {
 						<a href="<?php echo $dir_link ?>" title="<?php echo $fileInfo->getFilename() ?>">
 							Ouvrir le dossier
 						</a>
-		            </p>            
+		            </p>
 		        </figcaption>
 		    </figure>
 	    <?php
 		}
 	}
-	
 
-	$first = false;	
-	foreach (new DirectoryIterator('.'.$cur_dir) as $fileInfo) {
+
+	$first = false;
+	foreach (new DirectoryIterator('.'.$base_dir.'/'.$cur_dir) as $fileInfo) {
 		//on passe les liens pointé
 		if($fileInfo->isDot()) continue;
 		//on passe les dossiers
 		if($fileInfo->isDir()) continue;
-		
+
 		$mimetype = mime_content_type($fileInfo->getPathname());
-		
+
 		//on filtre les fichiers qui ne sont pas des images
 		if( strpos( $mimetype, "image") === false ) continue;
-		
+
 		//on recupere la premiere image pour s'en servir de fond d'ecran pour l'album
 		if(!$first){
-			$first = "http://".$thumbor_url."1200x375/".$self_url.$cur_dir.'/'.$fileInfo->getFilename();
+			$first = "http://".$thumbor_url."1200x375".$cur_dir.'/'.$fileInfo->getFilename();
 		}
 		?>
 		<figure class="effect-oscar  wowload fadeInUp">
-	        <img src="<?php echo "http://".$thumbor_url."400x275/".$self_url.$cur_dir.'/'.$fileInfo->getFilename() ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
+	        <img src="<?php echo "http://".$thumbor_url."400x275".$cur_dir.'/'.$fileInfo->getFilename() ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
 	        <figcaption>
 	            <!--h2><?php echo $fileInfo->getFilename(); ?></h2-->
 	            <p>
@@ -144,45 +144,45 @@ function human_filesize($bytes, $decimals = 2) {
 		            <?php echo $mimetype; ?><br>
 		            <?php echo date($format_date,$fileInfo->getMTime()); ?><br>
 					<?php echo human_filesize($fileInfo->getSize()); ?><br>
-					<a 
-						href="<?php echo "http://".$thumbor_url."1940x1296/".$self_url.$cur_dir.'/'.$fileInfo->getFilename() ?>" 
+					<a
+						href="<?php echo "http://".$thumbor_url."1940x1296".$cur_dir.'/'.$fileInfo->getFilename() ?>"
 						title="<?php echo $fileInfo->getFilename() ?>" data-gallery>
 						Agrandir
 					</a>
-	            </p>            
+	            </p>
 	        </figcaption>
 	    </figure>
 		<?php
 	}
-	
+
 	//si une image a été trouvé
 	if($first){
 		echo "<script> document.getElementById('fondecran').src = '".$first."'; </script>";
 	}
-	
+
 ?>
-		
-		
-	
-    
-   
-     
+
+
+
+
+
+
 </div>
 <!-- works -->
 
 
 <!--div id="testimonials" class="container spacer ">
 	<h2 class="text-center  wowload fadeInUp">Testimonails</h2>
-  <div class="clearfix">    
+  <div class="clearfix">
     <div class="col-sm-6 col-sm-offset-3">
 
 
     <div id="carousel-testimonials" class="carousel slide testimonails  wowload fadeInRight" data-ride="carousel">
-    <div class="carousel-inner">  
+    <div class="carousel-inner">
       <div class="item active animated bounceInRight row">
       <div class="animated slideInLeft col-xs-2"><img alt="portfolio" src="images/team/1.jpg" width="100" class="img-circle img-responsive"></div>
       <div  class="col-xs-10">
-      <p> I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. </p>      
+      <p> I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. </p>
       <span>Angel Smith - <b>eshop Canada</b></span>
       </div>
       </div>
@@ -207,7 +207,7 @@ function human_filesize($bytes, $decimals = 2) {
     <li data-target="#carousel-testimonials" data-slide-to="1"></li>
     <li data-target="#carousel-testimonials" data-slide-to="2"></li>
   	</ol>
-  	
+
   </div-->
 
 
@@ -255,7 +255,7 @@ Copyright 2014 Cyrus Creative Studio. All rights reserved.
     <a class="prev">‹</a>
     <a class="next">›</a>
     <a class="close">×</a>
-    <!-- The modal dialog, which will be used to wrap the lightbox content -->    
+    <!-- The modal dialog, which will be used to wrap the lightbox content -->
 </div>
 
 
