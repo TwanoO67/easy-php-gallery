@@ -9,11 +9,11 @@
 
                 <div class="panel-body">
                   @if($user->is_admin)
-                    <a href="{{ url('/folders') }}"> Editer les dossier</a>
+                    <a href="{{ url('/admin') }}"> Administration</a>
                   @endif
                   <br/>
-                  Vos dossiers partagés:<br/>
                   <br/>
+                  Vos dossiers partagés:<br/>
                   @forelse ($folders as $folder)
                       {{ $folder->directory }} - {{ $folder->access_level }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
                   @empty

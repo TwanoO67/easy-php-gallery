@@ -9,7 +9,7 @@
 
                 <div class="panel-body">
 
-                    Utilisateurs:<br/>
+                    <strong>Utilisateurs:</strong><br/>
                     <br/>
                     @foreach($full_users as $user)
                       {{ $user->email }}
@@ -20,10 +20,10 @@
                     @endforeach
                     <br/>
                     <br/>
-                    Dossiers partagés:<br/>
+                    <strong>Dossiers partagés:</strong><br/>
                     <br/>
                     @foreach($folders as $folder)
-                      {{ $folder->directory }} - {{ $folder->access_level }} - {{ $folder->user_id }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
+                      Dossier: {{ $folder->directory }} - Droits: {{ $folder->access_level }} - User: {{ $folder->user_id }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
                     @endforeach
                     <br/>
                     ou

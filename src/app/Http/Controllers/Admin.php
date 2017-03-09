@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Input;
 use App\User;
 use Redirect;
 use Auth;
-use App\Folder as FolderModel;
+use App\Folder;
 
 class Admin extends Controller
 {
@@ -19,7 +19,7 @@ class Admin extends Controller
         dd("Accés refusé");
       }
 
-      $folders = FolderModel::all();
+      $folders = Folder::all();
 
       $users = [];
       $full_users = User::all();

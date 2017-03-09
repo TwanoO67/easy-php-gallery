@@ -30,7 +30,8 @@ class Gallery extends Controller
     $folder = Folder::findOrFail($id);
     $cur_user = Auth::user();
 
-    if(!$cur_user || $folder->user_id !== $cur_user->user_id){
+    //ici pour une raison inconnu le user_id dans le folder est une string
+    if( !$cur_user || $folder->user_id+0 !== $cur_user->id ){
       dd("Accés refusé");
     }
 

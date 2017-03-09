@@ -22,13 +22,13 @@ class FolderController extends Controller
         $validator = $this->validate($request, $rules);
 
         // store
-        $nerd = new  Folder;
+        $nerd = new Folder;
         $nerd->user_id = Input::get('user_id');
         $nerd->directory = Input::get('directory');
         $nerd->access_level = Input::get('access_level');
         $nerd->save();
 
-        return Redirect::to('folders');
+        return Redirect::to('admin');
 
     }
 
