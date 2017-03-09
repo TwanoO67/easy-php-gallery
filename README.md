@@ -8,10 +8,15 @@
 then change the db if you want to use mysql or else.
 
 `./enter.sh
+
 composer install
+
 php artisan key:generate
+
 php artisan migrate
-php artisan db:seed`
+
+php artisan db:seed
+`
 
 ## Setup
 

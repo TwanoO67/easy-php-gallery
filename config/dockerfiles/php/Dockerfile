@@ -2,7 +2,7 @@ FROM php:7.1-apache
 
 RUN a2enmod rewrite
 
-RUN apt-get update && apt-get install -y git subversion bash curl
+RUN apt-get update && apt-get install -y git subversion bash curl unzip
 
 RUN echo "memory_limit=-1" > "$PHP_INI_DIR/conf.d/memory-limit.ini" \
  && echo "date.timezone=${PHP_TIMEZONE:-UTC}" > "$PHP_INI_DIR/conf.d/date_timezone.ini"
