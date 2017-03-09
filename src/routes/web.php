@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::middleware('auth')->get('/folders', 'Folder@list');
+
 Route::get('/home', 'HomeController@index');
 
 Route::get('/gallery', "Gallery@index");
