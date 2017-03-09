@@ -3,9 +3,20 @@
 
 ## Installation
 
+Choose your http port, and the main folder to share, by editing .env
+`vi .env`
+
+Launch the project
+`docker-compose up -d`
+
+Prepare your config
 `cp src/.env.example src/.env`
 
-then change the db if you want to use mysql or else.
+You can use a different database or else create the sqlite one
+`touch src/database.sqlite`
+
+
+then, install dependencies and prepare the db by
 
 `./enter.sh
 
