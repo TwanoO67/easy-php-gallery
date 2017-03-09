@@ -17,8 +17,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware('auth')->get('/folders', 'Folder@list');
-Route::middleware('auth')->post('/folder', 'Folder@store')->name('folder_create');
+Route::middleware('auth')->get('/admin', 'Admin@list');
+Route::middleware('auth')->post('/folder', 'FolderController@store')->name('folder_create');
+
 
 Route::get('/home', 'HomeController@index');
 
@@ -26,12 +27,3 @@ Route::get('/gallery/{id}', "Gallery@index");
 Route::get('/gallery/{id}/{dossier}', "Gallery@index");
 
 Route::get('/image/{id}', "Gallery@image")->name('image_raw');
-
-Route::get('/disk', function () {
-
-    //lister les disk
-    //dd(config('filesystems.disks'));
-    $directory = "/";
-
-    dd(Storage::disk('dockervolume')->files($directory));
-});

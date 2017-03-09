@@ -6,41 +6,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\User;
 use Redirect;
-use App\Folder as FolderModel;
+use App\Folder;
 
-class Folder extends Controller
+class FolderController extends Controller
 {
-    public function list(){
-
-      $cur_user = Auth::user();
-
-      if(!$cur_user->is_admin){
-        dd("Accés refusé");
-      }
-
-      $folders = FolderModel::all();
-
-      $users = [];
-      foreach (User::all() as $user) {
-        $users[ $user->id ] = $user->email;
-      }
-
-      $disks = array_keys(config('filesystems.disks'));
-
-      $access = [
-        "RW" => "Lecture/Ecriture",
-        "R" => "Lecture seule",
-      ];
-
-      return view('folder',compact('folders','users','disks','access'));
-
-    }
 
     public function store(Request $request)
     {
-        if(!$cur_user->is_admin){
-          dd("Accés refusé");
-        }
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'user_id'   => 'required|numeric',
@@ -50,7 +22,7 @@ class Folder extends Controller
         $validator = $this->validate($request, $rules);
 
         // store
-        $nerd = new  FolderModel;
+        $nerd = new  Folder;
         $nerd->user_id = Input::get('user_id');
         $nerd->directory = Input::get('directory');
         $nerd->access_level = Input::get('access_level');

@@ -8,7 +8,19 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    Vos dossiers partagés:<br/>
+
+                    Utilisateurs:<br/>
+                    <br/>
+                    @foreach($full_users as $user)
+                      {{ $user->email }}
+                      @if($user->is_admin)
+                      (Admin)
+                      @endif
+                      <br/>
+                    @endforeach
+                    <br/>
+                    <br/>
+                    Dossiers partagés:<br/>
                     <br/>
                     @foreach($folders as $folder)
                       {{ $folder->directory }} - {{ $folder->access_level }} - {{ $folder->user_id }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
