@@ -11,46 +11,27 @@
                     Vos dossiers partagés:<br/>
                     <br/>
                     @foreach($folders as $folder)
-                      {{ $folder->disk }} - {{ $folder->directory }} - {{ $folder->access_level }} - {{ $folder->user_id }} <br/>
+                      {{ $folder->directory }} - {{ $folder->access_level }} - {{ $folder->user_id }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
                     @endforeach
                     <br/>
                     ou
                     <br/>
                     <b>Creer un nouveau dossier:</b><br/>
                     {!! Form::open(array('route' => 'folder_create', 'class' => 'form')) !!}
-
                     <div class="form-group">
-                        {!! Form::label('User_id') !!}
-                        {!! Form::select('user_id', $users, array('required', 'class'=>'form-control', 'placeholder'=>'User')) !!}
+                        {!! Form::label('Utilisateur') !!}
+                        {!! Form::select('user_id', $users, null, array('required', 'class'=>'form-control') ) !!}
                     </div>
-
-                    <div class="form-group">
-                        {!! Form::label('Disk') !!}
-                        {!! Form::select('disk', $disks,
-                            array('required',
-                                  'class'=>'form-control',
-                                  'placeholder'=>'Disk')) !!}
-                    </div>
-
                     <div class="form-group">
                         {!! Form::label('Dossier') !!}
-                        {!! Form::text('directory', null,
-                            array('required',
-                                  'class'=>'form-control',
-                                  'placeholder'=>'Dossier')) !!}
+                        {!! Form::text('directory', '/', array('required', 'class'=>'form-control')) !!}
                     </div>
-
                     <div class="form-group">
-                        {!! Form::label('Acces level') !!}
-                        {!! Form::select('access_level', $access,
-                            array('required',
-                                  'class'=>'form-control',
-                                  'placeholder'=>'Access level')) !!}
+                        {!! Form::label('Niveau d\'accés') !!}
+                        {!! Form::select('access_level', $access, 'R', array('required','class'=>'form-control')) !!}
                     </div>
-
                     <div class="form-group">
-                        {!! Form::submit('Creer',
-                          array('class'=>'btn btn-primary')) !!}
+                        {!! Form::submit('Creer', array('class'=>'btn btn-primary')) !!}
                     </div>
                     {!! Form::close() !!}
 

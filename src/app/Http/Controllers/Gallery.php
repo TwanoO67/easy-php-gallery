@@ -21,9 +21,9 @@ class Gallery extends Controller
 
   private function getImgLink($file,$resolution=""){
 
-    $url = route('image_raw', ['id' => $file],false);
+    //$url = route('image_raw', ['id' => $file],false);
     //return $url;
-    return "/convert/unsafe/".$resolution.'/'.urlencode("http://php".$url);
+    return "/convert/unsafe/".$resolution.'/'.$file;//urlencode("http://php".$url);
   }
 
   public function index(){
@@ -39,7 +39,7 @@ class Gallery extends Controller
     }
 
     $directory = $folder->directory;
-    $disk = Storage::disk($folder->disk);
+    $disk = Storage::disk("dockervolume");//$folder->disk);
     $directories = [];
     $files = [];
 
@@ -88,7 +88,7 @@ class Gallery extends Controller
 
   }
 
-  //retourne le fichier brute de l'image
+  /*//retourne le fichier brute de l'image
   public function image($id){
     $file = Storage::disk('dockervolume')->get($id);
     $type = Storage::disk('dockervolume')->mimeType($id);
@@ -97,7 +97,7 @@ class Gallery extends Controller
     $response->header("Content-Type",$type);
 
     return $response;
-  }
+  }*/
 
 
 }

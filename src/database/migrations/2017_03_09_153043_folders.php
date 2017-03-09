@@ -16,7 +16,6 @@ class Folders extends Migration
       Schema::create('folders', function (Blueprint $table) {
         $table->increments('id');
         $table->integer('user_id');
-        $table->string('disk');
         $table->string('directory');
         $table->string('access_level');
         $table->timestamps();

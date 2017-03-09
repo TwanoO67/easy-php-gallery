@@ -8,7 +8,17 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    You are logged in!
+                  @if($user->is_admin)
+                    <a href="{{ url('/folders') }}"> Editer les dossier</a>
+                  @endif
+                  <br/>
+                  Vos dossiers partagés:<br/>
+                  <br/>
+                  @forelse ($folders as $folder)
+                      {{ $folder->directory }} - {{ $folder->access_level }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
+                  @empty
+                      <p>Aucun dossier configuré</p>
+                  @endforelse
                 </div>
             </div>
         </div>
