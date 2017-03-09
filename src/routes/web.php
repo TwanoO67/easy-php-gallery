@@ -23,6 +23,7 @@ Route::middleware('auth')->post('/folder', 'Folder@store')->name('folder_create'
 Route::get('/home', 'HomeController@index');
 
 Route::get('/gallery/{id}', "Gallery@index");
+Route::get('/gallery/{id}/{dossier}', "Gallery@index");
 
 Route::get('/image/{id}', "Gallery@image")->name('image_raw');
 

@@ -44,8 +44,12 @@
               <div class="caption-info">
               <!--img src="images/profile.jpg" class="img-circle profile"-->
               <h1 class="animated bounceInUp">{{ $title }}</h1>
-              <!--p class="animated bounceInLeft">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-             <div class="animated bounceInDown"><a href="#works" class="btn btn-default explore">view My Works</a></div-->
+              <!--p class="animated bounceInLeft">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>-->
+              @if($backlink)
+                <div class="animated bounceInDown">
+                  <a href="{{$backlink}}" class="btn btn-default explore">Retour</a>
+                </div>
+              @endif
               </div>
             </div>
           </div>
@@ -71,7 +75,6 @@
         <figcaption>
             <h2 onclick="document.location='{{ $dir['dirlink'] }}'">{{ $dir['filename'] }}</h2>
             <p>
-              {{ $dir['mtime'] }}<br>
               <a href="{{ $dir['dirlink'] }}" title="{{ $dir['filename'] }}">
                 Ouvrir le dossier
               </a>

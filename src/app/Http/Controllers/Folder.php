@@ -12,6 +12,12 @@ class Folder extends Controller
 {
     public function list(){
 
+      $cur_user = Auth::user();
+
+      if(!$cur_user->is_admin){
+        dd("Accés refusé");
+      }
+
       $folders = FolderModel::all();
 
       $users = [];
@@ -32,6 +38,9 @@ class Folder extends Controller
 
     public function store(Request $request)
     {
+        if(!$cur_user->is_admin){
+          dd("Accés refusé");
+        }
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'user_id'   => 'required|numeric',

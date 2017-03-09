@@ -8,7 +8,6 @@ use File;
 use Auth;
 use Response;
 use App\Folder;
-use Illuminate\Support\Facades\Input;
 
 class Gallery extends Controller
 {
@@ -26,12 +25,9 @@ class Gallery extends Controller
     return "/convert/unsafe/".$resolution.'/'.$file;//urlencode("http://php".$url);
   }
 
-  public function index(){
+  public function index($id,$dossier=""){
 
-
-    $dossier = Input::get('id');
-
-    $folder = Folder::firstOrFail($dossier);
+    $folder = Folder::findOrFail($id);
     $cur_user = Auth::user();
 
     if($folder->user_id === $cur_user->user_id){
@@ -39,6 +35,17 @@ class Gallery extends Controller
     }
 
     $directory = $folder->directory;
+    $backlink = false;
+    if($dossier !== ""){
+      $directory .= $dossier;
+
+      //on retire un dossier au nom
+      $dirs = explode('/', $dossier);
+      array_shift($dirs);
+      $dir = implode('/', $dirs);
+
+      $backlink = url("gallery",['id' => $id, 'dossier' => $dir]);
+    }
     $disk = Storage::disk("dockervolume");//$folder->disk);
     $directories = [];
     $files = [];
@@ -46,16 +53,14 @@ class Gallery extends Controller
     //reglage
     $format_date = "Y/m/d G:i:s";
     $title = "Gallerie";
-    $default_fondecran = "images/back.jpg";
+    $default_fondecran = "/images/back.jpg";
 
     //preparation des dossiers
     foreach ($disk->directories($directory) as $dir) {
       $directories[] = [
         "filename" => $dir,
-        "mtime" => "",
         "mimetype" => "folder",
-        "dirlink" => "",
-        "size" => ""
+        "dirlink" => url("gallery",['id' => $id, 'dossier' => $dir]),
       ];
     }
 
@@ -65,13 +70,12 @@ class Gallery extends Controller
 
       //on test le mimetype, et exclue ce qui n'est pas une image
       $type = $disk->mimeType($file);
-      if( strpos( $type, "image") === false ) continue;
+      if( strpos( $type, "image") !== 0 ) continue;
 
       $curfile = [
         "filename" => $file,
         "mtime" => date($format_date, $disk->lastModified($file)),
         "mimetype" => $type,
-        "dirlink" => "",
         "size" => $this->human_filesize($disk->size($file)),
         "img_links" => [
           "small" => $this->getImgLink($file,"640x360"),
@@ -84,7 +88,7 @@ class Gallery extends Controller
       $files[] = $curfile;
     }
 
-    return view('gallery',compact('title','directories','files','first'));
+    return view('gallery',compact('title','directories','files','first','backlink'));
 
   }
 
