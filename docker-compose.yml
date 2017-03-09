@@ -4,7 +4,7 @@ services:
      #name: phpgallery_thumbor
      image: apsl/thumbor
      volumes:
-       - ${PHOTO_DIR}:/mydata
+       - "${PHOTO_DIR}:/mydata"
      environment:
        - FILE_LOADER_ROOT_PATH=/mydata/
        - LOADER=thumbor.loaders.file_loader
@@ -16,10 +16,12 @@ services:
      #name: phpgallery_php
      depends_on:
        - thumbor
-     image: php:7.1-apache
+     #image: php:7.1-apache
+     build: ./config/dockerfiles/php
      volumes:
-     - .:/var/www/html
-     - ${PHOTO_DIR}:/mydata
+     - ./src:/var/www/html
+     - ./config/vhosts:/etc/apache2/sites-enabled
+     - "${PHOTO_DIR}:/mydata"
      restart: always
 
    nginx:
@@ -30,7 +32,7 @@ services:
      ports:
        - "${APP_PORT}:80"
      volumes:
-       - ./confnginx:/etc/nginx/conf.d
+       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
      restart: always
      links:
        - thumbor

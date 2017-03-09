@@ -1,41 +1,10 @@
-<?php
-$thumbor_url = "/convert/unsafe/";
-$format_date = "Y/m/d G:i:s";
-
-$title = "Gallerie Photo";
-
-$base_dir = "/mydata";
-if( isset($_GET['dir'])){
-	$cur_dir = base64_decode($_GET['dir']);
-	$title = "Gallerie ".str_replace($base_dir, '', $cur_dir);
-}
-else{
-	$cur_dir = "";
-}
-
-
-
-
-
-function human_filesize($bytes, $decimals = 2) {
-    $size = array('o','Ko','Mo','Go','To','Po','Eo','Zo','Yo');
-    $factor = floor((strlen($bytes) - 1) / 3);
-    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
-}
-
-function getImgLink($file,$resolution=""){
-	global $cur_dir,$thumbor_url;
-	return $thumbor_url.$resolution.'/'.urlencode(substr($cur_dir,1).'/'.$file->getFilename());
-}
-
-?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title><?php echo $title; ?></title>
+<title>{{ $title }}</title>
 
 <!-- Google fonts -->
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
@@ -69,12 +38,12 @@ function getImgLink($file,$resolution=""){
 <div id="home">
 <!-- Slider Starts -->
 <div class="banner">
-          <img id="fondecran" src="images/back.jpg" alt="banner" class="img-responsive" style="margin-left: auto; margin-right: auto;">
+          <img id="fondecran" src="{{ $first }}" alt="banner" class="img-responsive" style="margin-left: auto; margin-right: auto;">
           <div class="caption">
             <div class="caption-wrapper">
               <div class="caption-info">
               <!--img src="images/profile.jpg" class="img-circle profile"-->
-              <h1 class="animated bounceInUp"><?php echo $title; ?></h1>
+              <h1 class="animated bounceInUp">{{ $title }}</h1>
               <!--p class="animated bounceInLeft">Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
              <div class="animated bounceInDown"><a href="#works" class="btn btn-default explore">view My Works</a></div-->
               </div>
@@ -95,80 +64,42 @@ function getImgLink($file,$resolution=""){
 <!-- works -->
 <div id="works"  class=" clearfix grid">
 
-<?php
-	//on commence par listé les dossier
-	foreach (new DirectoryIterator($base_dir.'/'.$cur_dir) as $fileInfo) {
-		//on passe les liens pointé
-		if($fileInfo->isDot()) continue;
-		//on creer des liens pour les dossiers
-		if($fileInfo->isDir()){
+  @foreach ($directories as $dir)
+  <?php //$dir_link = "/?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename()); ?>
+  <figure class="effect-oscar  wowload fadeInUp">
+        <img src="/images/folder.png" style="margin-left: auto; margin-right: auto;" alt="dossier"/>
+        <figcaption>
+            <h2 onclick="document.location='{{ $dir['dirlink'] }}'">{{ $dir['filename'] }}</h2>
+            <p>
+              {{ $dir['mtime'] }}<br>
+              <a href="{{ $dir['dirlink'] }}" title="{{ $dir['filename'] }}">
+                Ouvrir le dossier
+              </a>
+            </p>
+        </figcaption>
+    </figure>
+  @endforeach
 
-			$dir_link = "/?dir=".base64_encode($cur_dir.'/'.$fileInfo->getFilename());
-		?>
-			<figure class="effect-oscar  wowload fadeInUp">
-	        	<img src="/images/folder.png" style="margin-left: auto; margin-right: auto;" alt="dossier"/>
-		        <figcaption>
-		            <h2 onclick="document.location='<?php echo $dir_link ?>'"><?php echo $fileInfo->getFilename(); ?></h2>
-		            <p>
-			            <?php echo date($format_date,$fileInfo->getMTime()); ?><br>
-						<a href="<?php echo $dir_link ?>" title="<?php echo $fileInfo->getFilename() ?>">
-							Ouvrir le dossier
-						</a>
-		            </p>
-		        </figcaption>
-		    </figure>
-	    <?php
-		}
-	}
-
-
-	$first = false;
-	foreach (new DirectoryIterator($base_dir.'/'.$cur_dir) as $fileInfo) {
-		//on passe les liens pointé
-		if($fileInfo->isDot()) continue;
-		//on passe les dossiers
-		if($fileInfo->isDir()) continue;
-
-		$mimetype = mime_content_type($fileInfo->getPathname());
-
-		//on filtre les fichiers qui ne sont pas des images
-		if( strpos( $mimetype, "image") === false ) continue;
-
-		//on recupere la premiere image pour s'en servir de fond d'ecran pour l'album
-		if(!$first){
-			$first = getImgLink($fileInfo,"1920x700");
-		}
-		?>
-		<figure class="effect-oscar wowload fadeInUp">
-	        <img src="<?php echo getImgLink($fileInfo,"640x360") ?>" alt="<?php echo $fileInfo->getFilename() ?>"/>
-	        <figcaption>
-	            <!--h2><?php echo $fileInfo->getFilename(); ?></h2-->
-	            <p>
-		            <?php echo $fileInfo->getFilename(); ?><br>
-		            <?php echo $mimetype; ?><br>
-		            <?php echo date($format_date,$fileInfo->getMTime()); ?><br>
-								<?php echo human_filesize($fileInfo->getSize()); ?><br>
-								<a
-									href="<?php echo getImgLink($fileInfo,"1920x1080") ?>"
-									title="<?php echo $fileInfo->getFilename() ?>" data-gallery>
-									Agrandir
-								</a>
-	            </p>
-	        </figcaption>
-	    </figure>
-		<?php
-	}
-
-	//si une image a été trouvé
-	if($first){
-		echo "<script> document.getElementById('fondecran').src = '".$first."'; </script>";
-	}
-
-?>
-
-
-
-
+  <?php $first = false; ?>
+  @foreach ($files as $file)
+  <figure class="effect-oscar wowload fadeInUp">
+        <img src="{{ $file['img_links']['small'] }}" alt="{{ $file['filename'] }}"/>
+        <figcaption>
+            <!--h2>{{ $file['filename'] }}</h2-->
+            <p>
+              {{ $file['filename'] }}<br>
+              {{ $file['mimetype'] }}<br>
+              {{ $file['mtime'] }}<br>
+              {{ $file['size'] }}<br>
+              <a
+                href="{{ $file['img_links']['big'] }}"
+                title="{{ $file['filename'] }}" data-gallery>
+                Agrandir
+              </a>
+            </p>
+        </figcaption>
+    </figure>
+  @endforeach
 
 
 </div>
