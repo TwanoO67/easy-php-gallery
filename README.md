@@ -4,12 +4,11 @@
 ## Installation
 
 Choose your http port, and the main folder to share, by editing .env
-`vi .env`
 
 Launch the project
 `docker-compose up -d`
 
-Prepare your config
+Prepare your config, and edit to set the APP_URL (using the port you choose earlier)
 `cp src/.env.example src/.env`
 
 You can use a different database or else create the sqlite one
@@ -18,7 +17,7 @@ You can use a different database or else create the sqlite one
 
 then, install dependencies and prepare the db by
 
-`./enter.sh
+```./enter.sh
 
 composer install
 
@@ -27,7 +26,7 @@ php artisan key:generate
 php artisan migrate
 
 php artisan db:seed
-`
+```
 
 ## Setup
 
