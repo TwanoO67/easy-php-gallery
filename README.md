@@ -17,14 +17,11 @@ You can use a different database or else create the sqlite one
 
 then, install dependencies and prepare the db by
 
-```./enter.sh
-
+```
+./enter.sh
 composer install
-
 php artisan key:generate
-
 php artisan migrate
-
 php artisan db:seed
 ```
 
