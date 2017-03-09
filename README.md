@@ -7,6 +7,8 @@ cp src/.env.example src/.env
 
 change the db if you want to use mysql or else.
 
+./enter.sh
+composer install
 php artisan key:generate
 php artisan migrate
 php artisan db:seed

@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware('auth')->get('/folders', 'Folder@list');
+Route::middleware('auth')->post('/folder', 'Folder@create')->name('folder_create');
 
 Route::get('/home', 'HomeController@index');
 

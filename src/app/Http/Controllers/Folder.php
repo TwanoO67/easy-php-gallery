@@ -14,4 +14,14 @@ class Folder extends Controller
       return view('folder',compact('folders'));
 
     }
+
+    public function create(array $data)
+    {
+        return FolderModel::create([
+            'user_id' => $data['user_id'],
+            'disk' => $data['disk'],
+            'directory' => $data['directory'],
+            'access_level' => $data['access_level'],
+        ]);
+    }
 }
