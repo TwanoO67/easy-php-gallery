@@ -18,11 +18,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware('auth')->get('/folders', 'Folder@list');
-Route::middleware('auth')->post('/folder', 'Folder@create')->name('folder_create');
+Route::middleware('auth')->post('/folder', 'Folder@store')->name('folder_create');
 
 Route::get('/home', 'HomeController@index');
 
-Route::get('/gallery', "Gallery@index");
+Route::get('/gallery/{id}', "Gallery@index");
 
 Route::get('/image/{id}', "Gallery@image")->name('image_raw');
 

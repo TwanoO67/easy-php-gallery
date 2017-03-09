@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use App\User;
+
 use App\Folder as FolderModel;
 
 class Folder extends Controller
@@ -11,17 +14,46 @@ class Folder extends Controller
 
       $folders = FolderModel::all();
 
-      return view('folder',compact('folders'));
+      $users = [];
+      foreach (User::all() as $user) {
+        $users[ $user->id ] = $user->email;
+      }
+
+      $disks = [];
+      foreach (config('filesystems.disks') as $key => $value) {
+        $disks[] = $key;
+      }
+
+      $access = [
+        "RW" => "Lecture/Ecriture",
+        "R" => "Lecture seule",
+      ];
+
+      return view('folder',compact('folders','users','disks','access'));
 
     }
 
-    public function create(array $data)
+    public function store(Request $request)
     {
-        return FolderModel::create([
-            'user_id' => $data['user_id'],
-            'disk' => $data['disk'],
-            'directory' => $data['directory'],
-            'access_level' => $data['access_level'],
-        ]);
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'user_id'   => 'required|numeric',
+            'disk'      => 'required',
+            'directory' => 'required',
+            'access_level' => 'required'
+        );
+        $validator = $this->validate($request, $rules);
+
+        // store
+        $nerd = new  FolderModel;
+        $nerd->user_id = Input::get('user_id');
+        $nerd->disk = Input::get('disk');
+        $nerd->directory = Input::get('directory');
+        $nerd->access_level = Input::get('access_level');
+        $nerd->save();
+
+        return Redirect::to('folders');
+
     }
+
 }

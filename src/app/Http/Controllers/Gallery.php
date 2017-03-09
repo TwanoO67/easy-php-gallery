@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Storage;
 use File;
+use Auth;
 use Response;
+use App\Folder;
+use Illuminate\Support\Facades\Input;
 
 class Gallery extends Controller
 {
@@ -18,18 +21,29 @@ class Gallery extends Controller
 
   private function getImgLink($file,$resolution=""){
 
-    $url = route('image_raw', ['id' => $file]);
-    return $url;
-    //return "/convert/unsafe/".$resolution.'/'.urlencode($url);
+    $url = route('image_raw', ['id' => $file],false);
+    //return $url;
+    return "/convert/unsafe/".$resolution.'/'.urlencode("http://php".$url);
   }
 
   public function index(){
-    $directory = '/';
+
+
+    $dossier = Input::get('id');
+
+    $folder = Folder::firstOrFail($dossier);
+    $cur_user = Auth::user();
+
+    if($folder->user_id === $cur_user->user_id){
+      dd("Accés refusé");
+    }
+
+    $directory = $folder->directory;
+    $disk = Storage::disk($folder->disk);
     $directories = [];
     $files = [];
 
     //reglage
-    $disk = Storage::disk('dockervolume');
     $format_date = "Y/m/d G:i:s";
     $title = "Gallerie";
     $default_fondecran = "images/back.jpg";
@@ -70,7 +84,7 @@ class Gallery extends Controller
       $files[] = $curfile;
     }
 
-    return view('album',compact('title','directories','files','first'));
+    return view('gallery',compact('title','directories','files','first'));
 
   }
 
