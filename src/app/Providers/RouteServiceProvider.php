@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use URL;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -23,7 +24,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //On force l'url (pour ne pas avoir celle du host docker)
+        URL::forceRootUrl(config("app.url"));
 
         parent::boot();
     }
