@@ -13,6 +13,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    @yield('head')
+
     <!-- Scripts -->
     <script>
         window.Laravel = {!! json_encode([
@@ -83,5 +85,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('footer')
 </body>
 </html>

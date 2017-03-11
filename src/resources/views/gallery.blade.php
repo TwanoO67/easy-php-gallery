@@ -57,15 +57,6 @@
 <!-- #Slider Ends -->
 </div>
 
-
-
-
-
-
-
-
-
-<!-- works -->
 <div id="works"  class=" clearfix grid">
 
   @foreach ($directories as $dir)
@@ -73,9 +64,9 @@
   <figure class="effect-oscar  wowload fadeInUp">
         <img src="/images/folder.png" style="margin-left: auto; margin-right: auto;" alt="dossier"/>
         <figcaption>
-            <h2 onclick="document.location='{{ $dir['dirlink'] }}'">{{ $dir['filename'] }}</h2>
+            <h2 onclick="document.location='{{ $dir['dirlink'] }}'">{{ $dir['basename'] }}</h2>
             <p>
-              <a href="{{ $dir['dirlink'] }}" title="{{ $dir['filename'] }}">
+              <a href="{{ $dir['dirlink'] }}" title="{{ $dir['basename'] }}">
                 Ouvrir le dossier
               </a>
             </p>

@@ -25,6 +25,10 @@ class Gallery extends Controller
     return "/convert/unsafe/".$resolution.'/'.$file;//urlencode("http://php".$url);
   }
 
+  private function getDirLink($id,$dossier){
+    return url("gallery",['id' => $id, 'dossier' => base64_encode($dossier)]);
+  }
+
   public function index($id,$dossier=""){
 
     $folder = Folder::findOrFail($id);
@@ -38,6 +42,7 @@ class Gallery extends Controller
     $directory = $folder->directory;
     $backlink = false;
     if($dossier !== ""){
+      $dossier = base64_decode($dossier);
       $directory .= $dossier;
 
       //on retire un dossier au nom
@@ -45,7 +50,7 @@ class Gallery extends Controller
       array_shift($dirs);
       $dir = implode('/', $dirs);
 
-      $backlink = url("gallery",['id' => $id, 'dossier' => $dir]);
+      $backlink = $this->getDirLink($id,$dir);
     }
     $disk = Storage::disk("dockervolume");//$folder->disk);
     $directories = [];
@@ -60,8 +65,9 @@ class Gallery extends Controller
     foreach ($disk->directories($directory) as $dir) {
       $directories[] = [
         "filename" => $dir,
+        "basename" => basename($dir),
         "mimetype" => "folder",
-        "dirlink" => url("gallery",['id' => $id, 'dossier' => $dir]),
+        "dirlink" => $this->getDirLink($id,$dir),
       ];
     }
 
@@ -89,7 +95,8 @@ class Gallery extends Controller
       $files[] = $curfile;
     }
 
-    return view('gallery',compact('title','directories','files','first','backlink'));
+
+    return view('nanogallery',compact('title','directories','files','first','backlink'));
 
   }
 
