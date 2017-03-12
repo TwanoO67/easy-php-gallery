@@ -18,11 +18,9 @@ class Gallery extends Controller
       return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
   }
 
+  //renvoi le lien vers thumbor de l'image
   private function getImgLink($file,$resolution=""){
-
-    //$url = route('image_raw', ['id' => $file],false);
-    //return $url;
-    return "/convert/unsafe/".$resolution.'/'.$file;//urlencode("http://php".$url);
+    return "/convert/unsafe/".$resolution.'/'.urlencode($file);
   }
 
   private function getDirLink($id,$dossier){
@@ -47,7 +45,7 @@ class Gallery extends Controller
 
       //on retire un dossier au nom
       $dirs = explode('/', $dossier);
-      array_shift($dirs);
+      array_pop($dirs);
       $dir = implode('/', $dirs);
 
       $backlink = $this->getDirLink($id,$dir);
@@ -58,7 +56,7 @@ class Gallery extends Controller
 
     //reglage
     $format_date = "Y/m/d G:i:s";
-    $title = "Gallerie";
+    $title = "Gallerie ".$directory;
     $default_fondecran = "/images/back.jpg";
 
     //preparation des dossiers

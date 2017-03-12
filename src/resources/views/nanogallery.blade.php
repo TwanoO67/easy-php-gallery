@@ -21,18 +21,22 @@
                 </div>
 
                 <div class="panel-body">
-                  <strong>Sous-Dossier :</strong><br/>
-                  @foreach ($directories as $dir)
-                    <a href="{{ $dir['dirlink'] }}" >{{ $dir['basename'] }}</a><br/>
-                  @endforeach
-
-                  <strong>Photos :</strong><br/>
-                  <div data-nanogallery2>
-                    <?php $first = false; ?>
-                    @foreach ($files as $file)
-                        <a href="{{ $file['img_links']['big'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['filename'] }}"></a>
+                  @if(count($directories) > 0)
+                    <strong>Sous-Dossier :</strong><br/>
+                    @foreach ($directories as $dir)
+                      <a href="{{ $dir['dirlink'] }}" >{{ $dir['basename'] }}</a><br/>
                     @endforeach
-                  </div>
+                  @endif
+
+                  @if(count($files) > 0)
+                    <strong>Photos :</strong><br/>
+                    <div data-nanogallery2>
+                      <?php $first = false; ?>
+                      @foreach ($files as $file)
+                          <a href="{{ $file['img_links']['big'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['filename'] }}"></a>
+                      @endforeach
+                    </div>
+                  @endif
 
                 </div>
             </div>
