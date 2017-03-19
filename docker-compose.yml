@@ -2,7 +2,7 @@ version: '2.0'
 services:
    thumbor:
      #name: phpgallery_thumbor
-     image: apsl/thumbor
+     image: apsl/thumbor:6.3.0
      #build: ./config/thumbor
      volumes:
        - "${PHOTO_DIR}:/mydata"
