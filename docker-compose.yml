@@ -1,9 +1,8 @@
 version: '2.0'
 services:
    thumbor:
-     #name: phpgallery_thumbor
+     container_name: EPG_thumbor
      image: apsl/thumbor:6.3.0
-     #build: ./config/thumbor
      volumes:
        - "${PHOTO_DIR}:/mydata"
        - ./config/thumbor/imaging.py:/usr/local/lib/python2.7/site-packages/thumbor/handlers/imaging.py
@@ -17,17 +16,18 @@ services:
      restart: always
 
    php:
-     #name: phpgallery_php
+     container_name: EPG_php
      depends_on:
        - thumbor
-     #image: php:7.1-apache
      build: ./config/php
      volumes:
      - "${PHOTO_DIR}:/mydata"
+     #for developpement purpose
+     - ./config/php/src:/var/www/html
      restart: always
 
    nginx:
-     #name: phpgallery_nginx
+     container_name: EPG_nginx
      depends_on:
        - php
      image: nginx:stable-alpine

@@ -1,1 +1,1 @@
-docker exec -it easyphpgallery_php_1 bash
+docker exec -it EPG_php bash
