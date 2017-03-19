@@ -131,7 +131,3 @@
 @endif
 
 @endsection
-
-@section('footer')
-  <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
-@endsection

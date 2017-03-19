@@ -8,10 +8,50 @@ use App\User;
 use Redirect;
 use Auth;
 use Storage;
+use Response;
 use App\Folder;
 
 class Admin extends Controller
 {
+
+  public function autocomplete(){
+      $term = Input::get('term');
+
+      //Recuperation des dossiers niveau 1
+      $disk = Storage::disk("dockervolume");
+
+      $all = $disk->allDirectories();
+
+      $matchingFiles = preg_grep("/$term/i", $all);
+
+
+      //$directories = ['/' => '/'];
+      //preparation des dossiers
+      foreach ($matchingFiles as $num => $dir) {
+        //if( strpos(strtolower($dir), $term) ){
+          $directories[] = [
+            'id' => $dir,
+            'value' => $dir
+          ];
+        //}
+          //$directories[] = ['id'=>'/','value'=>'/']; //basename($dir),
+      }
+
+      /*$results = array();
+
+      $queries = DB::table('users')
+        ->where('first_name', 'LIKE', '%'.$term.'%')
+        ->orWhere('last_name', 'LIKE', '%'.$term.'%')
+        ->take(5)->get();
+
+      foreach ($queries as $query)
+      {
+          $results[] = [ 'id' => $query->id, 'value' => $query->first_name.' '.$query->last_name ];
+      }*/
+      return Response::json($directories);
+    }
+
+
     public function list(){
 
       $cur_user = Auth::user();
@@ -43,11 +83,11 @@ class Admin extends Controller
         $themes[$dir] = $dir; //basename($dir),
       }
 
-      //Recuperation des dossiers niveau 1
+      //Recuperation des dossiers
       $disk = Storage::disk("dockervolume");
       $directories = ['/' => '/'];
       //preparation des dossiers
-      foreach ($disk->directories() as $num => $dir) {
+      foreach ($disk->allDirectories() as $num => $dir) {
         $directories[$dir] = $dir; //basename($dir),
       }
 

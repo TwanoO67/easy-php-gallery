@@ -23,6 +23,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/folder', 'FolderController@store')->name('folder_create');
     Route::get('/folder/delete/{id}', 'FolderController@delete')->name('folder_delete');
 
+    Route::get('/admin/autocomplete', 'Admin@autocomplete');
+
     Route::get('/gallery/{id}', "Gallery@index");
     Route::get('/gallery/{id}/{dossier}', "Gallery@index");
 

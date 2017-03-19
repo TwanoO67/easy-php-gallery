@@ -25,17 +25,17 @@ class FolderController extends Controller
         // read more on validation at http://laravel.com/docs/validation
         $rules = array(
             'user_id'   => 'required|numeric',
-            'directory' => 'required',
             'access_level' => 'required'
         );
         $validator = $this->validate($request, $rules);
 
         // store
-        $nerd = new Folder;
-        $nerd->user_id = Input::get('user_id');
-        $nerd->directory = Input::get('directory');
-        $nerd->access_level = Input::get('access_level');
-        $nerd->save();
+        $new_folder = new Folder;
+        $new_folder->user_id = Input::get('user_id');
+        $new_folder->directory = '/'.Input::get('directory');
+        $new_folder->access_level = Input::get('access_level');
+        $new_folder->theme = Input::get('theme');
+        $new_folder->save();
 
         return Redirect::to('admin');
 
