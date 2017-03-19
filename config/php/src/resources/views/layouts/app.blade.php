@@ -64,7 +64,7 @@
 
                                 <ul class="dropdown-menu" role="menu">
                                     <li>
-                                      @if($user->is_admin)
+                                      @if( Auth::user()->is_admin)
                                         <a href="{{ url('/admin') }}"> Administration</a>
                                       @endif
                                         <a href="{{ route('logout') }}"
