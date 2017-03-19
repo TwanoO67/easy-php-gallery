@@ -11,19 +11,10 @@ Launch the project
 Prepare your config, and edit to set the APP_URL (using the port you choose earlier)
 `cp src/.env.example src/.env`
 
-You can use a different database or else create the sqlite one
+You can use a different database (by editing .env) or else create the sqlite one
 `touch src/database.sqlite`
+Warning the sqlite database must be in a folder with write permissions
 
-
-then, install dependencies and prepare the db by
-
-```
-./enter.sh
-composer install
-php artisan key:generate
-php artisan migrate
-php artisan db:seed
-```
 
 ## Setup
 
@@ -38,3 +29,8 @@ Then change the password, or definitively delete this account
 Hey dude! Help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/TwanoO67/easy-php-gallery/badge.svg?style=beer-square)](https://beerpay.io/TwanoO67/easy-php-gallery)  [![Beerpay](https://beerpay.io/TwanoO67/easy-php-gallery/make-wish.svg?style=flat-square)](https://beerpay.io/TwanoO67/easy-php-gallery?focus=wish)
+=======
+
+## TODO
+Bug with space in folder or names
+Update: /usr/local/lib/python2.7/site-packages/thumbor/handlers/imaging.py
