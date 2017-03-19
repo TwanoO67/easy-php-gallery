@@ -3,7 +3,8 @@
 
 ## Installation
 
-Choose your http port, and the main folder to share, by editing .env
+Choose your http port, and the main folder to share
+`cp .env.example .env; vi .env`
 
 Launch the project
 `docker-compose up -d`
@@ -18,19 +19,19 @@ Warning the sqlite database must be in a folder with write permissions
 
 ## Setup
 
-use the default credential to create your users / folders :
+1) Register a new account
+
+2) Connect using this account :
 
 email: admin@easyphpgallery.io
 password: secret
 
-Then change the password, or definitively delete this account
+3) Use the default credential to set your new user as admin
+
+4) Then disconnect and use your new account to definitively delete this account for security reasons
 
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
 
 [![Beerpay](https://beerpay.io/TwanoO67/easy-php-gallery/badge.svg?style=beer-square)](https://beerpay.io/TwanoO67/easy-php-gallery)  [![Beerpay](https://beerpay.io/TwanoO67/easy-php-gallery/make-wish.svg?style=flat-square)](https://beerpay.io/TwanoO67/easy-php-gallery?focus=wish)
 =======
-
-## TODO
-Bug with space in folder or names
-Update: /usr/local/lib/python2.7/site-packages/thumbor/handlers/imaging.py
