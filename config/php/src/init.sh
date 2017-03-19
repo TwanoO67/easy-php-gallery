@@ -1,8 +1,6 @@
 #!/bin/bash
 echo "Ouverture des droits"
-chmod -R 777 storage
-chmod -R 777 database.sqlite
-chmod -R 777 bootstrap/cache
+chmod -R 777 /var/www/html
 
 echo "Installation des dépendeances"
 composer install
