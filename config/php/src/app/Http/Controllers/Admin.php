@@ -14,7 +14,28 @@ use App\Folder;
 class Admin extends Controller
 {
 
+  public function deleteUser($id){
+
+    $user = User::findOrFail($id);
+    $user->folders()->delete();
+    $user->delete();
+
+    return Redirect::to('admin');
+
+  }
+
+  public function setAdmin($id,$bool){
+
+    $user = User::findOrFail($id);
+    $user->is_admin = $bool;
+    $user->save();
+
+    return Redirect::to('admin');
+
+  }
+
   public function autocomplete(){
+
       $term = Input::get('term');
 
       //Recuperation des dossiers niveau 1
@@ -37,28 +58,11 @@ class Admin extends Controller
           //$directories[] = ['id'=>'/','value'=>'/']; //basename($dir),
       }
 
-      /*$results = array();
-
-      $queries = DB::table('users')
-        ->where('first_name', 'LIKE', '%'.$term.'%')
-        ->orWhere('last_name', 'LIKE', '%'.$term.'%')
-        ->take(5)->get();
-
-      foreach ($queries as $query)
-      {
-          $results[] = [ 'id' => $query->id, 'value' => $query->first_name.' '.$query->last_name ];
-      }*/
       return Response::json($directories);
     }
 
 
     public function list(){
-
-      $cur_user = Auth::user();
-
-      if(!$cur_user->is_admin){
-        dd("Accés refusé");
-      }
 
       $folders = Folder::all();
 

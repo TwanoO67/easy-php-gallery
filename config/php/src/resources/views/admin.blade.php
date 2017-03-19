@@ -5,16 +5,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Gestion</div>
 
                 <div class="panel-body">
 
                     <strong>Utilisateurs:</strong><br/>
                     <br/>
                     @foreach($full_users as $user)
-                      {{ $user->email }}
+                      {{ $user->email }} <a href="{{ url('/admin/delete/user',['id' => $user->id]) }}">X</a>
                       @if($user->is_admin)
-                      (Admin)
+                      (Admin <a href="{{ url('/admin/set/user',['id' => $user->id, 'bool' => false]) }}">X</a>)
+                      @else
+                      <a href="{{ url('/admin/set/user',['id' => $user->id, 'bool' => true]) }}">Devenir Admin</a>
                       @endif
                       <br/>
                     @endforeach
