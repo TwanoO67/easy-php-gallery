@@ -27,8 +27,8 @@
                     @foreach($folders as $folder)
                       Dossier: {{ $folder->directory }} -
                       Droits: {{ $folder->access_level }} -
-                      User: {{ $folder->user_id }} -
-                      Theme: {{ $folder->theme }} -
+                      User: {{ $folder->user->email }} -
+                      Thême: {{ $folder->theme }} -
                       <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a>
 
                       <a href="{{ url('/folder/delete',['id' => $folder->id]) }}"> Supprimer</a>
@@ -44,7 +44,7 @@
                         {!! Form::select('user_id', $users, null, array('required') ) !!}
                     </div>
                     <div class="form-group">
-                        {!! Form::label('Dossier') !!}
+                        {!! Form::label('Sous-Dossier') !!}
                         {{-- Form::select('directory', $directories, '') --}}
                         {!! Form::text('directory', '', ['id' =>  'directory', 'placeholder' =>  'Chercher un dossier']) !!}
                     </div>
