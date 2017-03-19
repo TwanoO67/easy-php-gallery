@@ -72,6 +72,9 @@ class Gallery extends Controller
     //recuperation des images
     $first = $default_fondecran;
     foreach ($disk->files($directory) as $file) {
+      //exclusion des miniature de osX
+      $basename = basename($file);
+      if( strpos($basename, '.') === 0 ) continue;
 
       //on test le mimetype, et exclue ce qui n'est pas une image
       $type = $disk->mimeType($file);
