@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use App\User;
 use Redirect;
 use Auth;
+use Storage;
 use App\Folder;
 
 class Admin extends Controller
@@ -34,7 +35,23 @@ class Admin extends Controller
         "R" => "Lecture seule",
       ];
 
-      return view('admin',compact('folders','users','full_users','disks','access'));
+      //Recuperation des themes
+      $disk = Storage::disk("themes");
+      $themes = [];
+      //preparation des dossiers
+      foreach ($disk->directories() as $num => $dir) {
+        $themes[$dir] = $dir; //basename($dir),
+      }
+
+      //Recuperation des dossiers niveau 1
+      $disk = Storage::disk("dockervolume");
+      $directories = ['/' => '/'];
+      //preparation des dossiers
+      foreach ($disk->directories() as $num => $dir) {
+        $directories[$dir] = $dir; //basename($dir),
+      }
+
+      return view('admin',compact('folders','users','full_users','disks','access','themes','directories'));
 
     }
 

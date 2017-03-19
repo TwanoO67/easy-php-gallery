@@ -23,7 +23,14 @@
                     <strong>Dossiers partagés:</strong><br/>
                     <br/>
                     @foreach($folders as $folder)
-                      Dossier: {{ $folder->directory }} - Droits: {{ $folder->access_level }} - User: {{ $folder->user_id }} - <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a><br/>
+                      Dossier: {{ $folder->directory }} -
+                      Droits: {{ $folder->access_level }} -
+                      User: {{ $folder->user_id }} -
+                      Theme: {{ $folder->theme }} -
+                      <a href="{{ url('/gallery',['id' => $folder->id]) }}"> Voir la gallerie</a>
+
+                      <a href="{{ url('/folder/delete',['id' => $folder->id]) }}"> Supprimer</a>
+                      <br/>
                     @endforeach
                     <br/>
                     ou
@@ -36,11 +43,15 @@
                     </div>
                     <div class="form-group">
                         {!! Form::label('Dossier') !!}
-                        {!! Form::text('directory', '/', array('required', 'class'=>'form-control')) !!}
+                        {!! Form::select('directory', $directories, '/') !!}
                     </div>
                     <div class="form-group">
                         {!! Form::label('Niveau d\'accés') !!}
                         {!! Form::select('access_level', $access, 'R', array('required','class'=>'form-control')) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::label('Thême') !!}
+                        {!! Form::select('theme', $themes, 'nano2') !!}
                     </div>
                     <div class="form-group">
                         {!! Form::submit('Creer', array('class'=>'btn btn-primary')) !!}

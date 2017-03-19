@@ -18,6 +18,7 @@ class Folders extends Migration
         $table->integer('user_id');
         $table->string('directory');
         $table->string('access_level');
+        $table->string('theme')->nullable();
         $table->timestamps();
       });
     }

@@ -93,21 +93,19 @@ class Gallery extends Controller
       $files[] = $curfile;
     }
 
+    //theme par defaut
+    $theme = "themes/nano2/gallery";
+    if($folder->theme){
+      $template = $folder->theme."/gallery";
+      $store = Storage::disk("themes");
+      if($store->exists($template.'.blade.php')){
+        $theme = "themes/".$template;
+      }
+    }
 
-    return view('nanogallery',compact('title','directories','files','first','backlink'));
+
+    return view($theme,compact('title','directories','files','first','backlink'));
 
   }
-
-  /*//retourne le fichier brute de l'image
-  public function image($id){
-    $file = Storage::disk('dockervolume')->get($id);
-    $type = Storage::disk('dockervolume')->mimeType($id);
-
-    $response = Response::make($file, 200);
-    $response->header("Content-Type",$type);
-
-    return $response;
-  }*/
-
 
 }
