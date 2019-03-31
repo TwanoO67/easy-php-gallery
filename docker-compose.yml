@@ -23,7 +23,7 @@ services:
      volumes:
      - "${PHOTO_DIR}:/mydata"
      #for developpement purpose
-     - ./config/php/src:/var/www/html
+     - ./src:/var/www/html
      restart: always
 
    nginx:
