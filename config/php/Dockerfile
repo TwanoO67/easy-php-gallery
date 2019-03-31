@@ -13,8 +13,10 @@ libxrender1 \
 mysql-client
 
 #Ajout de PDO & MySQLi
-RUN docker-php-ext-install pdo pdo_mysql mysqli calendar mbstring mcrypt intl pcntl zip soap sockets \
- && docker-php-ext-enable mysqli
+RUN docker-php-ext-install pdo pdo_mysql mysqli calendar mbstring mcrypt intl pcntl zip soap sockets && docker-php-ext-enable mysqli
+
+## Add mongo driver
+RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 #Changement de timezone
 RUN ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime \

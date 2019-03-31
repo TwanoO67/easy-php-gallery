@@ -19,6 +19,7 @@ services:
      container_name: EPG_php
      depends_on:
        - thumbor
+       - mongodb
      build: ./config/php
      volumes:
      - "${PHOTO_DIR}:/mydata"
@@ -39,3 +40,8 @@ services:
      links:
        - thumbor
        - php
+
+   mongodb:
+     container_name: mongodb
+     image: mongo
+
