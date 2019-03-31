@@ -10,6 +10,7 @@ gnupg \
 libxml2-dev \
 libfontconfig \
 libxrender1 \
+libcurl4-openssl-dev pkg-config libssl-dev \
 mysql-client
 
 #Ajout de PDO & MySQLi

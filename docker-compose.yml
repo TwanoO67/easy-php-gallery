@@ -42,6 +42,21 @@ services:
        - php
 
    mongodb:
-     container_name: mongodb
+     container_name: EPG_mongodb
      image: mongo
+     environment:
+      MONGO_INITDB_ROOT_USERNAME: easyphpgallery
+      MONGO_INITDB_ROOT_PASSWORD: easyphpgallery
 
+   mongo-express:
+    container_name: EPG_mongo_express
+    image: mongo-express
+    restart: always
+    depends_on:
+       - mongodb
+    ports:
+      - 0:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: easyphpgallery
+      ME_CONFIG_MONGODB_ADMINPASSWORD: easyphpgallery
