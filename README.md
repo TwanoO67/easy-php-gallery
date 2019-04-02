@@ -1,5 +1,17 @@
 #easyphpgallery
 
+![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/develop/demo.png)
+
+## Feature
+
+Albums of your local photos
+Automatic thumbnails with Thumbor
+Search / Tagging with TensorFlowJS AI
+Sharing with friends (publicly or private)
+Let them Upload new photos
+
+This project use your pictures in your server in read-only.
+So you can order it on your disk as you want. Finally!
 
 ## Installation
 

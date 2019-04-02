@@ -28,12 +28,12 @@
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
+        <a href="https://github.com/TwanoO67/easy-php-gallery" class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="../assets/img/logo-small.png">
+            <img src="https://pbs.twimg.com/profile_images/1453596088/dessin_antoine_bigger.png">
           </div>
         </a>
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+        <a href="https://github.com/TwanoO67/easy-php-gallery" class="simple-text logo-normal">
         {{ config('app.name', 'Laravel') }}
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
@@ -42,52 +42,55 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
-            <a href="/home">
+          <li class="{{ request()->is('home') ? 'active' : '' }}">
+            <a href="{{ route('home') }}">
               <i class="nc-icon nc-bank"></i>
               <p>Accueil</p>
             </a>
           </li>
-          <li>
-            <a href="./icons.html">
-              <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
+          <li class="{{ request()->is('gallery') ? 'active' : '' }}">
+            <a href="{{ route('gallery') }}">
+              <i class="nc-icon nc-box"></i>
+              <p>Fichiers</p>
             </a>
           </li>
-          <li>
+          <li >
             <a href="./map.html">
               <i class="nc-icon nc-pin-3"></i>
-              <p>Maps</p>
+              <p>Carte</p>
             </a>
           </li>
+          <li>
+            <a href="./typography.html">
+              <i class="nc-icon nc-caps-small"></i>
+              <p>Tags</p>
+            </a>
+          </li>
+          <li>
+            <a href="./user.html">
+              <i class="nc-icon nc-single-02"></i>
+              <p>Personnes</p>
+            </a>
+          </li>
+
           <li>
             <a href="./notifications.html">
               <i class="nc-icon nc-bell-55"></i>
               <p>Notifications</p>
             </a>
           </li>
-          <li>
-            <a href="./user.html">
-              <i class="nc-icon nc-single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
+          
           <li>
             <a href="./tables.html">
               <i class="nc-icon nc-tile-56"></i>
-              <p>Table List</p>
+              <p>Administration</p>
             </a>
           </li>
-          <li>
-            <a href="./typography.html">
-              <i class="nc-icon nc-caps-small"></i>
-              <p>Typography</p>
-            </a>
-          </li>
+          
           <li class="active-pro">
-            <a href="./upgrade.html">
+            <a href="https://github.com/TwanoO67/easy-php-gallery">
               <i class="nc-icon nc-spaceship"></i>
-              <p>Upgrade to PRO</p>
+              <p>Githut</p>
             </a>
           </li>
         </ul>
@@ -174,13 +177,7 @@
             <nav class="footer-nav">
               <ul>
                 <li>
-                  <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a>
-                </li>
-                <li>
-                  <a href="http://blog.creative-tim.com/" target="_blank">Blog</a>
-                </li>
-                <li>
-                  <a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
+                  <a href="https://github.com/TwanoO67/easy-php-gallery" target="_blank">GitHub</a>
                 </li>
               </ul>
             </nav>
@@ -189,7 +186,7 @@
                 ©
                 <script>
                   document.write(new Date().getFullYear())
-                </script>, made with <i class="fa fa-heart heart"></i> by Creative Tim
+                </script>, made with <i class="fa fa-heart heart"></i> by TwanoO67
               </span>
             </div>
           </div>
