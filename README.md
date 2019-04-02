@@ -1,4 +1,4 @@
-#easyphpgallery
+# EasyPHPhotoGallery
 
 ![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/master/demo.png)
 
