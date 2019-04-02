@@ -96,7 +96,7 @@ class HomeController extends Controller
         }
 
         //theme par defaut
-        $theme = "themes/nano2/gallery";
+        $theme = "themes/paper/gallery";
         /*if($folder->theme){
             $template = $folder->theme."/gallery";
             $store = Storage::disk("themes");
