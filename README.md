@@ -4,12 +4,13 @@
 
 ## Feature
 
-Albums of your local photos
-Automatic thumbnails with Thumbor
-Search / Tagging with TensorFlowJS AI
-Map of your GPS coordinates
-Sharing with friends (publicly or private)
-Let them Upload new photos
+* [x] Albums of your local photos
+* [x] Automatic thumbnails with Thumbor
+* [x] SlideShow and Fullscreen pictures
+* [] Search / Tagging with TensorFlowJS AI
+* [] Map of your GPS coordinates
+* [] Sharing with friends (publicly or private)
+* [] Let them Upload new photos
 
 This project use your pictures in your server in read-only.
 So you can order it on your disk as you want. Finally!
