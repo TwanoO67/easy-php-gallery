@@ -1,12 +1,13 @@
 #easyphpgallery
 
-![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/develop/demo.png)
+![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/master/demo.png)
 
 ## Feature
 
 Albums of your local photos
 Automatic thumbnails with Thumbor
 Search / Tagging with TensorFlowJS AI
+Map of your GPS coordinates
 Sharing with friends (publicly or private)
 Let them Upload new photos
 
