@@ -43,6 +43,17 @@ return [
 
     'disks' => [
 
+        'dockervolume' => [
+            'driver' => 'local',
+            'root' => "/mydata",
+            'visibility' => 'public',
+        ],
+
+        'themes' => [
+            'driver' => 'local',
+            'root' => '/var/www/html/resources/views/themes',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
