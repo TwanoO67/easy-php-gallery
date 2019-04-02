@@ -83,8 +83,9 @@ class GalleryController extends Controller
                 "mimetype" => $type,
                 "size" => $this->human_filesize($disk->size($file)),
                 "img_links" => [
-                "small" => $this->getImgLink($file,"640x360"),
-                "big" => $this->getImgLink($file,"1920x1080")
+                    "small" => $this->getImgLink($file,"640x360"),
+                    "big" => $this->getImgLink($file,"1920x1080"),
+                    "full" => $this->getImgLink($file,"0x0")
                 ]
             ];
 

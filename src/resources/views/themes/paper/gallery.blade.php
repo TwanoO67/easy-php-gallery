@@ -57,7 +57,7 @@
             <div data-nanogallery2>
               <?php $first = false; ?>
               @foreach ($files as $file)
-                  <a href="{{ $file['img_links']['big'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['filename'] }}"></a>
+                  <a href="{{ $file['img_links']['full'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['filename'] }}"></a>
               @endforeach
             </div>
           </div>
