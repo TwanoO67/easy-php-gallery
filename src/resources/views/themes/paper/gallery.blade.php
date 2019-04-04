@@ -5,6 +5,7 @@
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
+  <link href="https://transloadit.edgly.net/releases/uppy/v0.30.3/uppy.min.css" rel="stylesheet">
 @endsection
 
 @section('title')
@@ -49,11 +50,11 @@
       <div class="col-md-6">
         <div class="card ">
           <div class="card-header ">
-            <h5 class="card-title">Uppy.io</h5>
+            <h5 class="card-title">Ajout de fichiers dans le dossier {{$directory}} @if($directory == "/") <i><small>(racine)</small></i> @endif</h5>
             <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
           </div>
           <div class="card-body ">
-          TODO HAMZA {{$directory}}
+          <div id="drag-drop-area"></div>
           </div>
           <div class="card-footer ">
             <hr>
@@ -96,4 +97,17 @@
 
 @section('footer')
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
+  <script src="https://transloadit.edgly.net/releases/uppy/v0.30.3/uppy.min.js"></script>
+  <script>
+    var uppy = Uppy.Core()
+      .use(Uppy.Dashboard, {
+        inline: true,
+        target: '#drag-drop-area'
+      })
+      .use(Uppy.Tus, {endpoint: 'https://master.tus.io/files/'})
+
+    uppy.on('complete', (result) => {
+      console.log('Upload complete! We’ve uploaded these files:', result.successful)
+    })
+  </script>
 @endsection
