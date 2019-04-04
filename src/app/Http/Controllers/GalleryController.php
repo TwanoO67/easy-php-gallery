@@ -43,14 +43,21 @@ class GalleryController extends Controller
         $disk = Storage::disk("dockervolume");//$folder->disk);
         $directories = [];
         $files = [];
-        if($directory != '/'){
+        $parent = null;
+        if($directory !== '/'){
             $directory = base64_decode($directory);
+
+            //si on est dans un sous dossier, on calcule le dossier parent
+            $parents = explode('/',$directory);
+            array_pop($parents);
+            $parent = $this->getDirLink( implode('/',$parents) );
         }
+
         //$directory = /*'/';*/$request->input('dossier','/');
         $id = 'todo';
         $backlink = false;
 
-        //reglage
+        //reglages
         $format_date = "Y/m/d G:i:s";
         $title = "Gallerie ".$directory;
         $default_fondecran = "/images/back.jpg";
@@ -69,7 +76,7 @@ class GalleryController extends Controller
         $first = $default_fondecran;
         foreach ($disk->files($directory) as $file) {
 
-            //exclusion des miniature de osX
+            //exclusion des fichiers cachés (ex: .DStore, miniature de Mac OsX )
             $basename = basename($file);
             if( strpos($basename, '.') === 0 ) continue;
 
@@ -109,6 +116,6 @@ class GalleryController extends Controller
         }*/
 
 
-        return view($theme,compact('title','directories','files','first','backlink','directory'));
+        return view($theme,compact('title','directories','files','first','backlink','directory','parent'));
     }
 }
