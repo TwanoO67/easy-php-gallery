@@ -23,12 +23,12 @@ class GalleryController extends Controller
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
-  
+
     //renvoi le lien vers thumbor de l'image
     private function getImgLink($file,$resolution=""){
       return "/convert/unsafe/".$resolution.'/'.$file;
     }
-  
+
     private function getDirLink($id,$dossier){
         return 'todo';
       return url("gallery",['id' => $id, 'dossier' => base64_encode($dossier)]);
@@ -66,12 +66,12 @@ class GalleryController extends Controller
         //recuperation des images
         $first = $default_fondecran;
         foreach ($disk->files($directory) as $file) {
-            
+
             //exclusion des miniature de osX
             $basename = basename($file);
             if( strpos($basename, '.') === 0 ) continue;
 
-            
+
 
             //on test le mimetype, et exclue ce qui n'est pas une image
             $type = $disk->mimeType($file);
@@ -89,7 +89,7 @@ class GalleryController extends Controller
                 ]
             ];
 
-            
+
 
             if($first == $default_fondecran) $first = $this->getImgLink($file,"1920x700");
 
@@ -107,6 +107,6 @@ class GalleryController extends Controller
         }*/
 
 
-        return view($theme,compact('title','directories','files','first','backlink'));
+        return view($theme,compact('title','directories','files','first','backlink','directory'));
     }
 }

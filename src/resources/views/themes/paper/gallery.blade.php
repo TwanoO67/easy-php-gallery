@@ -22,11 +22,11 @@
       <div class="row">
 
       @if(count($directories) > 0)
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div class="card ">
           <div class="card-header ">
-          
-                
+
+
 
             <h5 class="card-title">Sous-Dossier</h5>
             <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
@@ -45,6 +45,24 @@
         </div>
       </div>
       @endif
+
+      <div class="col-md-6">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title">Uppy.io</h5>
+            <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
+          </div>
+          <div class="card-body ">
+          TODO HAMZA {{$directory}}
+          </div>
+          <div class="card-footer ">
+            <hr>
+            <div class="stats">
+              <i class="fa fa-history"></i> Updated 3 minutes ago
+            </div>
+          </div>
+        </div>
+      </div>
 
       @if(count($files) > 0)
       <div class="col-md-12">
@@ -71,7 +89,7 @@
       </div>
       @endif
 
-        
+
   </div>
 </div>
 @endsection
