@@ -9,11 +9,12 @@
 @endsection
 
 @section('title')
-  <a class="navbar-brand" href="#">{{ $title }}</a>
 
-  @if($backlink)
-  <a href="{{$backlink}}" class="btn btn-default explore">Retour</a>
+  @if($parent)
+  <a href="{{$parent}}" class="btn btn-default explore">Retour</a>&nbsp;&nbsp;&nbsp;
   @endif
+
+  <a class="navbar-brand" href="#">{{ $title }}</a>
 
 @endsection
 
