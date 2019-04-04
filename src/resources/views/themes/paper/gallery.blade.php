@@ -5,7 +5,51 @@
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
-@endsection
+  <script>
+    function statusUpdater() {
+			$.ajax({
+				'url': '/api/scan/status',
+			}).done(function(r) {
+        console.log(r);
+        $('#scan_done').html(r.done);
+        $('#scan_todo').html(r.todo);
+        //tant que c'est pas finis on relance
+				if(r.done < r.todo) {
+          setTimeout(() => {
+            statusUpdater();
+          }, 500);
+				}
+			  })
+			  .fail(function() {
+				  console.log( "An error has occurred... We could ask Neo about what happened, but he's taken the red pill and he's at home sleeping" );
+			  });
+		}
+    
+    function startScan() {
+      color = 'primary';
+
+      $.notify({
+        icon: "nc-icon nc-settings-gear-65",
+        message: "Scan en cours <span id='scan_done'>0</span> / <span id='scan_todo'>0</span>"
+
+      }, {
+        type: color,
+        timer: 0,
+        placement: {
+          from: 'top',
+          align: 'right'
+        }
+      });
+      $.ajax({
+        'url': '/api/scan/start'
+      }).done(function(r){
+        statusUpdater();
+      });
+      
+    }
+  </script>
+
+  @endsection
 
 @section('title')
 
@@ -14,6 +58,8 @@
   @endif
 
   <a class="navbar-brand" href="#">{{ $title }}</a>
+
+  &nbsp;&nbsp;&nbsp;<a class="btn btn-default explore" onclick="startScan()">Importer ce dossier</a>
 
 @endsection
 
