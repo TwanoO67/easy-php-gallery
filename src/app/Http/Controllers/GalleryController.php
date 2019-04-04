@@ -29,9 +29,8 @@ class GalleryController extends Controller
       return "/convert/unsafe/".$resolution.'/'.$file;
     }
 
-    private function getDirLink($id,$dossier){
-        return 'todo';
-      return url("gallery",['id' => $id, 'dossier' => base64_encode($dossier)]);
+    private function getDirLink($dossier){
+      return url("gallery",['dossier' => base64_encode($dossier)]);
     }
 
     /**
@@ -39,12 +38,15 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index($directory = '/')
     {
         $disk = Storage::disk("dockervolume");//$folder->disk);
         $directories = [];
         $files = [];
-        $directory = '/';
+        if($directory != '/'){
+            $directory = base64_decode($directory);
+        }
+        //$directory = /*'/';*/$request->input('dossier','/');
         $id = 'todo';
         $backlink = false;
 
@@ -59,7 +61,7 @@ class GalleryController extends Controller
                 "filename" => $dir,
                 "basename" => basename($dir),
                 "mimetype" => "folder",
-                "dirlink" => $this->getDirLink($id,$dir),
+                "dirlink" => $this->getDirLink('/'.$dir),
             ];
         }
 
