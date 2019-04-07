@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/scan/start', 'APIController@scan_start')->name('scan_start');
+Route::get('/scan/status', 'APIController@scan_status')->name('scan_status');
