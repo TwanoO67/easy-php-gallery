@@ -26,7 +26,7 @@
 				  console.log( "An error has occurred... We could ask Neo about what happened, but he's taken the red pill and he's at home sleeping" );
 			  });
 		}
-    
+
     function startScan() {
       color = 'primary';
 
@@ -47,11 +47,9 @@
       }).done(function(r){
         statusUpdater();
       });
-      
+
     }
   </script>
-
-  @endsection
 
 @section('title')
 
