@@ -145,13 +145,20 @@
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
   <script src="https://transloadit.edgly.net/releases/uppy/v0.30.3/uppy.min.js"></script>
   <script>
-    var uppy = Uppy.Core()
+  var directory = {!! json_encode($directory) !!};
+  console.log(directory);
+    var uppy = Uppy.Core({ meta: { directory: directory } })
       .use(Uppy.Dashboard, {
         inline: true,
         target: '#drag-drop-area'
       })
-      .use(Uppy.Tus, {endpoint: 'https://master.tus.io/files/'})
+      .use(Uppy.XHRUpload, {
+        endpoint: '/api/file/upload',
+        body: JSON.stringify({
+        }),
+      })
 
+      // Todo : ajout de vérification de l'upload + rafraichir la page
     uppy.on('complete', (result) => {
       console.log('Upload complete! We’ve uploaded these files:', result.successful)
     })
