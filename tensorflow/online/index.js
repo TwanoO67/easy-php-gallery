@@ -2,8 +2,6 @@ const tf = require('@tensorflow/tfjs')
 require('@tensorflow/tfjs-node')
 const mobilenet = require('@tensorflow-models/mobilenet');
 
-//global.fetch = require('node-fetch');
-
 const fs = require('fs');
 const jpeg = require('jpeg-js');
 
@@ -37,20 +35,12 @@ const imageToInput = (image, numChannels) => {
   return input
 }
 
-const loadModel = async path => {
-  let mn = mobilenet;//new mobilenet.MobileNet(1, 1);
-  //mn.path = `file://${path}`
-  mn = await mn.load(1,1)
-  return mn
-  //return mobilenet.load();
-}
 
-const classify = async (model, path) => {
+const classify = async ( path) => {
   const image = readImage(path)
   const input = imageToInput(image, NUMBER_OF_CHANNELS)
 
-  const mn_model = await loadModel(model);
-  //console.log(mn_model);
+  const mn_model = await mobilenet.load(1,1);
   const predictions = await mn_model.classify(input)
 
   console.log('classification results:', predictions)
@@ -58,6 +48,6 @@ const classify = async (model, path) => {
 
 //if (process.argv.length !== 4) throw new Error('incorrect arguments: node script.js <MODEL> <IMAGE_FILE>')
 
-const model = "/var/www/tensorflow/old/static/mobilenet/model.json"; //process.argv[2]
+//const model = "/var/www/tensorflow/old/static/mobilenet/model.json"; //process.argv[2]
 const image = '/mydata/malouky.jpeg'; // process.argv[3]
-classify(model,image)
+classify(image)

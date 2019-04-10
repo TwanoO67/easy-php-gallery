@@ -57,6 +57,6 @@ const classify = async (model, path) => {
 
 //if (process.argv.length !== 4) throw new Error('incorrect arguments: node script.js <MODEL> <IMAGE_FILE>')
 
-const model = "/var/www/tensorflow/old/static/mobilenet/model.json"; //process.argv[2]
+const model = "/var/www/tensorflow/static/mobilenet/model.json"; //process.argv[2]
 const image = '/mydata/malouky.jpeg'; // process.argv[3]
 classify(model,image)
