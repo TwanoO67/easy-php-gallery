@@ -34,6 +34,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 && rm composer-setup.php \
 && composer --ansi --version --no-interaction
 
+#Ajout de node
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo bash && apt-get install -y nodejs cmake
+
+
 COPY src /var/www/html
 COPY vhosts /etc/apache2/sites-enabled
 

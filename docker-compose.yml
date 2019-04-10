@@ -25,6 +25,7 @@ services:
      - "${PHOTO_DIR}:/mydata"
      #for developpement purpose
      - ./src:/var/www/html
+     - ./tensorflow:/var/www/tensorflow
      restart: always
 
    nginx:

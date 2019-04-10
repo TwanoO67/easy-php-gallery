@@ -44,6 +44,11 @@ password: secret
 
 4) Then disconnect and use your new account to definitively delete this account for security reasons
 
+## Source
+
+TensorflowJS tuto => https://github.com/ADLsourceCode/TensorflowJS.git
+http://jamesthom.as/blog/2018/08/07/machine-learning-in-node-dot-js-with-tensorflow-dot-js/
+
 ## Support on Beerpay
 Hey dude! Help me out for a couple of :beers:!
 
