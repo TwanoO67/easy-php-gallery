@@ -52,11 +52,11 @@ const classify = async (model, path) => {
   const  mn_model = await loadModel(model)
   const predictions = await mn_model.classify(input)
 
-  console.log('classification results:', predictions)
+  console.log(predictions)
 }
 
-//if (process.argv.length !== 4) throw new Error('incorrect arguments: node script.js <MODEL> <IMAGE_FILE>')
+if (process.argv.length !== 3) throw new Error('incorrect arguments: node index.js <IMAGE_FILE>')
 
-const model = "/var/www/tensorflow/static/mobilenet/model.json"; //process.argv[2]
-const image = '/mydata/malouky.jpeg'; // process.argv[3]
+const model = "/var/www/tensorflow/static/mobilenet/model.json"; //
+const image = process.argv[2]; //'/mydata/malouky.jpeg'; // process.argv[3]
 classify(model,image)

@@ -5,6 +5,8 @@ namespace App\Service;
 use Storage;
 use App\Photo;
 use App\Setting;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class FileService
 {
@@ -14,14 +16,47 @@ class FileService
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 
+    private static function getTags($str){
+        $tags = [];
+        $str = str_replace("\n", "", $str);
+        $str = str_replace("'", '"', $str);
+        $str = str_replace("className", '"className"', $str);
+        $str = str_replace("probability", '"probability"', $str);
+        $retour = json_decode($str,true);
+        if($retour !== null){
+            foreach($retour as $tag){
+                $tags[$tag['className']] = $tag['probability'];
+            }
+        }
+        return $tags;
+    }
+
+    private static function endsWith($string, $endString)
+    {
+        $len = strlen($endString);
+        if ($len == 0) {
+            return true;
+        }
+        return (substr($string, -$len) === $endString);
+    }
+
+    private static function fullPath($directory,$file){
+        $path = '/mydata'.$directory;
+        if( ! self::endsWith($path, '/') ){
+            $path .= '/';
+        }
+        $path .= $file;
+        return $path;
+    }
+
     private static function import_file_in_dir($directory){
         $disk = Storage::disk("dockervolume");
         $files = $disk->files($directory);
         $format_date = "Y/m/d G:i:s";
 
-        $setting = Setting::first(['type' => 'scan']);
+        $setting = Setting::where('type','scan')->first();
         $setting->todo += count($files);
-        $setting->save(); 
+        $setting->save();
         echo "Fichiers découvert:".$setting->todo;
 
         //recuperation des images
@@ -38,13 +73,26 @@ class FileService
             //on ajoute seulement si inexistant
             $found = Photo::where(["filename" => $file])->first();
             if(!$found){
+
+                //Systeme de tag
+                $process = new Process(['node','/var/www/tensorflow/local/index.js', self::fullPath($directory,$file)]);
+                $process->run();
+
+                // executes after the command finishes
+                if (!$process->isSuccessful()) {
+                   $tags = [];
+                }
+                else{
+                    $tags = self::getTags($process->getOutput());
+                }
+
                 $cur_file = Photo::create([
-                    "filename" => $directory.$file,
+                    "path" => self::fullPath($directory,$file),
                     "basename" => $basename,
                     "mtime" => date($format_date, $disk->lastModified($file)),
                     "mimetype" => $type,
+                    "tags" => $tags,
                     "size" => self::human_filesize($disk->size($file)),
-                    
                 ]);
             }
 
