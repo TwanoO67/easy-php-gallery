@@ -60,8 +60,8 @@
               <p>Carte</p>
             </a>
           </li>
-          <li>
-            <a href="./typography.html">
+          <li class="{{ request()->is('tags') ? 'active' : '' }}">
+            <a href="{{ route('tags') }}">
               <i class="nc-icon nc-caps-small"></i>
               <p>Tags</p>
             </a>
@@ -79,14 +79,14 @@
               <p>Notifications</p>
             </a>
           </li>
-          
+
           <li>
             <a href="./tables.html">
               <i class="nc-icon nc-tile-56"></i>
               <p>Administration</p>
             </a>
           </li>
-          
+
           <li class="active-pro">
             <a href="https://github.com/TwanoO67/easy-php-gallery">
               <i class="nc-icon nc-spaceship"></i>
@@ -162,10 +162,10 @@
       </nav>
       <!-- End Navbar -->
       <!-- <div class="panel-header panel-header-lg">
-  
+
   <canvas id="bigDashboardChart"></canvas>
-  
-  
+
+
 </div> -->
         @yield('content')
 

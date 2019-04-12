@@ -19,8 +19,22 @@ class APIController extends Controller
      */
     public function scan_start()
     {
-       $process = new Process('cd /var/ww/html && touch mytralala && /usr/bin/php artisan import:scan');
+       $process = new Process('cd /var/ww/html && touch mytralala && /usr/bin/php artisan import:scan && echo toto &');
+
+
+       $process->run();
+
+       // executes after the command finishes
+       if (!$process->isSuccessful()) {
+          return $process->getOutput();
+       }
+       return $process->getOutput();
+
        $process->start();
+       $set = Setting::where('type','scan')->first();
+       $set->todo = 0;
+       $set->done = 0;
+       $set->save();
        return 'started';
     }
 

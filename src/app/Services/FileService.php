@@ -5,6 +5,7 @@ namespace App\Service;
 use Storage;
 use App\Photo;
 use App\Setting;
+use App\Tag;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -25,7 +26,16 @@ class FileService
         $retour = json_decode($str,true);
         if($retour !== null){
             foreach($retour as $tag){
-                $tags[$tag['className']] = $tag['probability'];
+                //Ne prend pas en compte la probability pour le moment
+                //$tags[$tag['className']] = $tag['probability'];
+                $found = Tag::where('name', $tag['className'])->first();
+                if(!$found){
+                    $ntag = new Tag();
+                    $ntag->name = $tag['className'];
+                    $ntag->save();
+                    $found = $ntag;
+                }
+                $tags[] = $found;
             }
         }
         return $tags;
@@ -91,9 +101,13 @@ class FileService
                     "basename" => $basename,
                     "mtime" => date($format_date, $disk->lastModified($file)),
                     "mimetype" => $type,
-                    "tags" => $tags,
                     "size" => self::human_filesize($disk->size($file)),
                 ]);
+                foreach($tags as $tag){
+                    $cur_file->tags()->associate($tag);
+                }
+                $cur_file->save();
+
             }
 
             $setting->done += 1;

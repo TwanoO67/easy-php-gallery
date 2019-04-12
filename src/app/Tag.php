@@ -4,12 +4,12 @@ namespace App;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
-class Photo extends Eloquent
+class Tag extends Eloquent
 {
     protected $guarded = [];
 
-    public function tags()
+    public function photos()
     {
-        return $this->embedsMany(Tag::class);
+        return $this->belongsToMany(Photo::class,'tags');
     }
 }

@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Tag;
+use App\Photo;
+
+class TagsController extends Controller
+{
+
+    //renvoi le lien vers thumbor de l'image
+    private function getImgLink($file,$resolution=""){
+        return "/convert/unsafe/".$resolution.'/'.$file;
+      }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index($directory = '/')
+    {
+        $tags = Tag::all();
+
+        //theme par defaut
+        $theme = "themes/paper/tags";
+        /*if($folder->theme){
+            $template = $folder->theme."/gallery";
+            $store = Storage::disk("themes");
+            if($store->exists($template.'.blade.php')){
+                $theme = "themes/".$template;
+            }
+        }*/
+        $title = "Tags";
+
+
+        return view($theme,compact('tags','title'));
+    }
+
+    public function tag($id)
+    {
+        $tag = Tag::find($id);
+        $title = "Tags ".$tag->name;
+
+        $photos = $tag->photos;
+        dd($photos);/*Photo::whereHas('tags', function ($query) use ($tag) {
+            $query->where('name', $tag->name);
+        })->get();*/
+
+        foreach($photos as $photo){
+            $file = $photo->path;
+            $photo->img_links = [
+                "small" => $this->getImgLink($file,"640x360"),
+                "big" => $this->getImgLink($file,"1920x1080"),
+                "full" => $this->getImgLink($file,"0x0")
+            ];
+        }
+
+        //theme par defaut
+        $theme = "themes/paper/tag";
+        /*if($folder->theme){
+            $template = $folder->theme."/gallery";
+            $store = Storage::disk("themes");
+            if($store->exists($template.'.blade.php')){
+                $theme = "themes/".$template;
+            }
+        }*/
+
+
+        return view($theme,compact('tag','title','photos'));
+    }
+}
