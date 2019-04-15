@@ -11,6 +11,7 @@ class TagsController extends Controller
 
     //renvoi le lien vers thumbor de l'image
     private function getImgLink($file,$resolution=""){
+        $file = str_replace('/mydata/','',$file);
         return "/convert/unsafe/".$resolution.'/'.$file;
       }
 
@@ -43,13 +44,12 @@ class TagsController extends Controller
         $tag = Tag::find($id);
         $title = "Tags ".$tag->name;
 
-        $photos = $tag->photos;
-        dd($photos);/*Photo::whereHas('tags', function ($query) use ($tag) {
-            $query->where('name', $tag->name);
-        })->get();*/
+        $photos = Photo::where([ "tags.name" => $tag->name ])->get();
 
         foreach($photos as $photo){
             $file = $photo->path;
+
+            //dd($file);
             $photo->img_links = [
                 "small" => $this->getImgLink($file,"640x360"),
                 "big" => $this->getImgLink($file,"1920x1080"),
@@ -66,7 +66,6 @@ class TagsController extends Controller
                 $theme = "themes/".$template;
             }
         }*/
-
 
         return view($theme,compact('tag','title','photos'));
     }
