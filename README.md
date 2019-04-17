@@ -29,9 +29,11 @@ Launch the project
 Prepare your config, and edit to set the APP_URL (using the port you choose earlier)
 `cp src/.env.example src/.env`
 
-You can use a different database (by editing .env) or else create the sqlite one
-`touch src/database.sqlite`
-Warning the sqlite database must be in a folder with write permissions
+Install dependencies
+
+``` source enter.sh
+./init.sh ```
+
 
 
 ## Setup
