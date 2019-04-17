@@ -50,7 +50,7 @@ fi
 if [ ! -f .env ]; then
     echo "Création du fichier d'env docker"
     cp .env.example .env
-    sed -i -e "s#APP_PORT=100#http://APP_PORT=${PORT}#g" .env
+    sed -i -e "s#APP_PORT=100#APP_PORT=${PORT}#g" .env
     sed -i -e "s#PHOTO_DIR=/Users/TwanoO/Downloads#PHOTO_DIR=${PHOTO_DIR}#g" .env
 fi
 
