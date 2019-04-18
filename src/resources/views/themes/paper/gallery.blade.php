@@ -3,53 +3,22 @@
 @section('head')
   <title>{{ $title }}</title>
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
-  <script>
-    function statusUpdater() {
-			$.ajax({
-				'url': '/api/scan/status',
-			}).done(function(r) {
-        console.log(r);
-        $('#scan_done').html(r.done);
-        $('#scan_todo').html(r.todo);
-        //tant que c'est pas finis on relance
-				if(r.done < r.todo) {
-          setTimeout(() => {
-            statusUpdater();
-          }, 500);
-				}
-			  })
-			  .fail(function() {
-				  console.log( "An error has occurred... We could ask Neo about what happened, but he's taken the red pill and he's at home sleeping" );
-			  });
-		}
-    
-    function startScan() {
-      color = 'primary';
 
-      $.notify({
-        icon: "nc-icon nc-settings-gear-65",
-        message: "Scan en cours <span id='scan_done'>0</span> / <span id='scan_todo'>0</span>"
+  <style>
+    /* selectable */
 
-      }, {
-        type: color,
-        timer: 0,
-        placement: {
-          from: 'top',
-          align: 'right'
-        }
-      });
-      $.ajax({
-        'url': '/api/scan/start'
-      }).done(function(r){
-        statusUpdater();
-      });
-      
+    .s-noselect {
+        -webkit-touch-callout: none;-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;
     }
-  </script>
 
-  @endsection
+    #s-rectBox {
+        position: absolute;
+        z-index: 1090;
+        border:2px dashed #cbd3e3;
+    }
+
+  </style>
+@endsection
 
 @section('title')
 
@@ -72,21 +41,21 @@
       <div class="col-md-6">
         <div class="card ">
           <div class="card-header ">
-
-
-
             <h5 class="card-title">Sous-Dossier</h5>
+            <button id='subdir_selection' onclick="toggleSubdirSelection()" >Activer la selection</button>
             <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
           </div>
-          <div class="card-body ">
-          @foreach ($directories as $dir)
-          <i class="nc-icon nc-box"></i> <a href="{{ $dir['dirlink'] }}" >{{ $dir['basename'] }}</a><br/>
-          @endforeach
+          <div class="card-body zone " id="subdir_zone">
+            <div class="list-group">
+                @foreach ($directories as $dir)
+                    <a class="list-group-item" href="{{ $dir['dirlink'] }}" ><i class="nc-icon nc-box"></i> {{ $dir['basename'] }}</a><br/>
+                @endforeach
+            </div>
           </div>
           <div class="card-footer ">
             <hr>
-            <div class="stats">
-              <i class="fa fa-history"></i> Updated 3 minutes ago
+            <div id="subdir_footer">
+              <i class="fa fa-history"></i> Aucune selection
             </div>
           </div>
         </div>
@@ -143,4 +112,111 @@
 
 @section('footer')
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
+  <script type="text/javascript" src="/assets/js/plugins/selectables.js"></script>
+  <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
+  <script>
+    function statusUpdater() {
+			$.ajax({
+				'url': '/api/scan/status',
+			}).done(function(r) {
+        console.log(r);
+        $('#scan_done').html(r.done);
+        $('#scan_todo').html(r.todo);
+        //tant que c'est pas finis on relance
+				if(r.done < r.todo) {
+          setTimeout(() => {
+            statusUpdater();
+          }, 500);
+				}
+			  })
+			  .fail(function() {
+				  console.log( "An error has occurred... We could ask Neo about what happened, but he's taken the red pill and he's at home sleeping" );
+			  });
+		}
+
+    function startScan() {
+      color = 'primary';
+
+      $.notify({
+        icon: "nc-icon nc-settings-gear-65",
+        message: "Scan en cours <span id='scan_done'>0</span> / <span id='scan_todo'>0</span>"
+
+      }, {
+        type: color,
+        timer: 0,
+        placement: {
+          from: 'top',
+          align: 'right'
+        }
+      });
+      $.ajax({
+        'url': '/api/scan/start'
+      }).done(function(r){
+        statusUpdater();
+      });
+
+    }
+
+    function updateActiveSubDirs(){
+        var count = $('#subdir_zone a.active').length;
+        var icon = '<i class="fa fa-history"></i>';
+        var element = $('#subdir_footer');
+        if(count === 0){
+            element.html(icon+' Aucun selectionnées');
+        }
+        else if(count === 1){
+            element.html(icon+' 1 dossier selectionnée');
+        }
+        else if(count > 1){
+            element.html(icon+' '+count+" dossiers selectionnées");
+        }
+        console.log(count);
+    }
+
+    function toggleSubdirSelection(){
+        var element = $('#subdir_selection');
+        if(subdir_enabled){
+            subdir_selection.disable();
+            $('#subdir_zone a.active').removeClass('active');
+            updateActiveSubDirs();
+            element.html('Activer la selection');
+        }
+        else{
+            subdir_selection.enable();
+            element.html('Desactiver la selection');
+        }
+        subdir_enabled = !subdir_enabled;
+    }
+
+    $(document).ready(function() {
+        subdir_enabled = false;
+        subdir_selection = new Selectables({
+            elements: 'a',
+            zone: '#subdir_zone',
+            selectedClass: 'active', // class name to apply to seleted items
+            moreUsing: 'ctrlKey', //altKey,ctrlKey,metaKey   // add more to selection
+            enabled: false, //false to .enable() at later time
+
+            start: function(){
+                console.log('on start');
+                console.log('Starting selection on ' + this.elements + ' in ' + this.zone);
+            }, //  event on selection start
+            stop: function(){
+                console.log('on stop');
+                console.log('Stopped selection on ' + this.elements + ' in ' + this.zone);
+
+            }, // event on selection end
+            onSelect: function(el){
+                console.log('on select');
+                updateActiveSubDirs();
+            }, // event fired on every item when selected.
+            onDeselect: function(el){
+                console.log('on deselect');
+                updateActiveSubDirs();
+            } // event fired on every item when selected.
+        });
+
+    })
+
+  </script>
 @endsection

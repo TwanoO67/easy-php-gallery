@@ -16,8 +16,6 @@
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="../assets/demo/demo.css" rel="stylesheet" />
   @yield('head')
 </head>
 
@@ -55,7 +53,7 @@
             </a>
           </li>
           <li >
-            <a href="./map.html">
+            <a href="/404">
               <i class="nc-icon nc-pin-3"></i>
               <p>Carte</p>
             </a>
@@ -67,21 +65,21 @@
             </a>
           </li>
           <li>
-            <a href="./user.html">
+            <a href="/404">
               <i class="nc-icon nc-single-02"></i>
               <p>Personnes</p>
             </a>
           </li>
 
           <li>
-            <a href="./notifications.html">
+            <a href="/404">
               <i class="nc-icon nc-bell-55"></i>
-              <p>Notifications</p>
+              <p>Albums</p>
             </a>
           </li>
 
           <li>
-            <a href="./tables.html">
+            <a href="/404">
               <i class="nc-icon nc-tile-56"></i>
               <p>Administration</p>
             </a>
@@ -183,10 +181,7 @@
             </nav>
             <div class="credits ml-auto">
               <span class="copyright">
-                ©
-                <script>
-                  document.write(new Date().getFullYear())
-                </script>, made with <i class="fa fa-heart heart"></i> by TwanoO67
+                © 2019, made with <i class="fa fa-heart heart"></i> by TwanoO67
               </span>
             </div>
           </div>
@@ -199,22 +194,12 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-  <!-- Chart JS -->
-  <script src="../assets/js/plugins/chartjs.min.js"></script>
+
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-  <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
-    });
-  </script>
+
   @yield('footer')
 </body>
 
