@@ -15,7 +15,7 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+  <link href="../assets/css/paper-dashboard-pro.css?v=2.0.0" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="../assets/demo/demo.css" rel="stylesheet" />
 
@@ -32,12 +32,6 @@
     <nav class="navbar navbar-transparent navbar-absolute">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="/">EasyPhpGallery</a>
             </div>
             <div class="collapse navbar-collapse">
@@ -59,37 +53,32 @@
 
 
     <div class="wrapper wrapper-full-page">
-        <div class="full-page login-page" data-color="" data-image="../assets/img/background/background-2.jpg">
+        <div class="full-page login-page" data-color="" data-image="/assets/img/background/background-2.jpg">
         <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
             <div class="content">
                 @yield('content')
             </div>
+
+            <footer class="footer footer-transparent ">
+                <div class="container">
+
+                    <span class="copyright">
+                    <a href="https://github.com/TwanoO67/easy-php-gallery" target="_blank">GitHub</a>
+                        ©
+                        <script>
+                        document.write(new Date().getFullYear())
+                        </script>, made with <i class="fa fa-heart heart"></i> by TwanoO67
+                    </span>
+
+                </div>
+            </footer>
+
         </div>
     </div>
 
 
 
-      <footer class="footer footer-black  footer-white ">
-        <div class="container-fluid">
-          <div class="row">
-            <nav class="footer-nav">
-              <ul>
-                <li>
-                  <a href="https://github.com/TwanoO67/easy-php-gallery" target="_blank">GitHub</a>
-                </li>
-              </ul>
-            </nav>
-            <div class="credits ml-auto">
-              <span class="copyright">
-                ©
-                <script>
-                  document.write(new Date().getFullYear())
-                </script>, made with <i class="fa fa-heart heart"></i> by TwanoO67
-              </span>
-            </div>
-          </div>
-        </div>
-      </footer>
+
     </div>
   </div>
   <!--   Core JS Files   -->
