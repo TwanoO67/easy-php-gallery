@@ -8,11 +8,12 @@
 * [x] Automatic thumbnails with Thumbor
 * [x] SlideShow and Fullscreen pictures
 * [x] Search / Tagging with TensorFlowJS AI
-* [ ] Let them Upload new photos
+* [x] Create Dir, Delete, Move files
+* [x] Let them Upload new photos
+* [ ] Create virtual albums
 * [ ] Sharing with friends (publicly or private)
-* [ ] Detect human faces
+* [ ] Detect human faces and regroup
 * [ ] Map of your GPS coordinates
-
 
 
 This project use your pictures in your server in read-only.

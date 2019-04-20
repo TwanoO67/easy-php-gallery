@@ -4,6 +4,7 @@
   <title>{{ $title }}</title>
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
+  <link href="https://transloadit.edgly.net/releases/uppy/v0.30.3/uppy.min.css" rel="stylesheet">
   <style>
     /* selectable */
 
@@ -94,17 +95,10 @@
       <div class="col-md-6">
         <div class="card ">
           <div class="card-header ">
-            <h5 class="card-title">Uppy.io</h5>
-            <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
+            <h5 class="card-title">Ajouter vos fichiers</h5>
           </div>
           <div class="card-body ">
-          TODO HAMZA {{$directory}}
-          </div>
-          <div class="card-footer ">
-            <hr>
-            <div class="stats">
-              <i class="fa fa-history"></i> Updated 3 minutes ago
-            </div>
+            <div id="drag-drop-area"></div>
           </div>
         </div>
       </div>
@@ -143,8 +137,26 @@
 @section('footer')
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
   <script type="text/javascript" src="/assets/js/plugins/selectables.js"></script>
+  <script src="https://transloadit.edgly.net/releases/uppy/v0.30.3/uppy.min.js"></script>
   <script>
-    directory = "{{$directory}}";
+    var directory = {!! json_encode($directory) !!};
+
+    var uppy = Uppy.Core({ meta: { directory: directory } })
+      .use(Uppy.Dashboard, {
+        inline: true,
+        target: '#drag-drop-area'
+      })
+      .use(Uppy.XHRUpload, {
+        endpoint: '/api/file/upload',
+        body: JSON.stringify({
+        }),
+      })
+
+      // Todo : ajout de vérification de l'upload + rafraichir la page
+    uppy.on('complete', (result) => {
+      console.log('Upload complete! We’ve uploaded these files:', result.successful)
+      window.location.refresh();
+    })
 
     function statusUpdater() {
 			$.ajax({

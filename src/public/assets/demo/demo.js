@@ -14,6 +14,8 @@ demo = {
   },
 
   initDocChart: function() {
+      return;
+
     chartColor = "#FFFFFF";
 
     ctx = document.getElementById('chartHours').getContext("2d");
@@ -95,6 +97,9 @@ demo = {
   },
 
   initChartsPages: function() {
+
+    return;
+
     chartColor = "#FFFFFF";
 
     ctx = document.getElementById('chartHours').getContext("2d");
@@ -285,6 +290,7 @@ demo = {
   },
 
   initGoogleMaps: function() {
+      return;
     var myLatlng = new google.maps.LatLng(40.748817, -73.985428);
     var mapOptions = {
       zoom: 13,
