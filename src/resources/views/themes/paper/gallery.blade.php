@@ -138,6 +138,8 @@
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
   <script type="text/javascript" src="/assets/js/plugins/selectables.js"></script>
   <script>
+    directory = "{{$directory}}";
+
     function statusUpdater() {
 			$.ajax({
 				'url': '/api/scan/status',
@@ -233,6 +235,24 @@
       selected = selected.map(function(gal_item){
         let url = gal_item.src.replace('/convert/unsafe/0x0','');
         return url;
+      });
+
+      var name = prompt("Quel nom donner au dossier ?");
+      if(name.length === 0){
+        return false;
+      }
+
+      var myJSObject = {
+        'new_directory': directory+'/'+name,
+        'files': selected
+      }
+      var url = "{{ route('directory_create') }}";
+      $.ajax(url, {
+        data : JSON.stringify(myJSObject),
+        contentType : 'application/json',
+        type : 'POST'
+      }).done(function( data ) {
+        window.location.reload();
       });
 
       console.log(selected);
