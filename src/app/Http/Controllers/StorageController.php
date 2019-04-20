@@ -24,16 +24,12 @@ class StorageController extends Controller
       return url("gallery",['dossier' => base64_encode($dossier)]);
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function create(Request $request)
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'new_directory' => 'required',
+            'new_directory' => 'required_without:destination_directory',
+            'destination_directory' =>'required_without:new_directory',
             'files' => 'array',
         ]);
 
@@ -46,14 +42,20 @@ class StorageController extends Controller
 
         $disk = Storage::disk("dockervolume");//$folder->disk);
 
-        $new = $disk->makeDirectory($data['new_directory']);
+        if(isset($data['new_directory']) ){
+            $destination = $disk->makeDirectory($data['new_directory']);
+        }
+        else{
+            $destination = $data['destination_directory'];
+        }
+        
 
         if($data['files'] && count($data['files']) > 0){
             foreach($data['files'] as $file){
-                $disk->move($file,$data['new_directory'].DIRECTORY_SEPARATOR.basename($file));
+                $disk->move($file, $destination.DIRECTORY_SEPARATOR.basename($file));
             }
         }
 
-        return response()->json($new, 201);
+        return response()->json($destination, 201);
     }
 }

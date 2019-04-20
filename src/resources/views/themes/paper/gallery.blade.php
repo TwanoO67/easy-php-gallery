@@ -46,12 +46,12 @@
               <i class="fab fa-searchengin"></i> Scanner le dossier
             </button>
       
-            <button class="btn btn-primary btn-sm" id='subdir_selection' onclick="toggleSubdirSelection()" >
-              <i class="fas fa-hand-pointer"></i> Mode selection
-            </button>
+            <button class="btn btn-primary btn-sm" id='btn_selection' onclick="toggleSelectionMode()" ></button>
 
-            <button class="btn btn-primary btn-sm" onclick="createSubdirWithSelection()" >
-              <i class="fas fa-folder-plus"></i> Créer un dossier avec la selection
+            <button class="btn btn-primary btn-sm" id='btn_dir_create' onclick="createSubdir()" ></button>
+
+            <button class="btn btn-primary btn-sm" id='btn_move' onclick="moveFiles()">
+              <i class="fas fa-arrows-alt"></i> Deplacer
             </button>
           </div>
         </div>
@@ -222,7 +222,7 @@
       return $('#file_zone div.nGY2GThumbnail.active');
     }
 
-    function createSubdirWithSelection(){
+    function getSelectedList(){
       //recuperation des fichiers de la galleries
       var data = $('#your_nanogallery2').nanogallery2('data');
       var selected = data.items.filter(function(item){
@@ -236,16 +236,10 @@
         let url = gal_item.src.replace('/convert/unsafe/0x0','');
         return url;
       });
+      return selected;
+    }
 
-      var name = prompt("Quel nom donner au dossier ?");
-      if(name.length === 0){
-        return false;
-      }
-
-      var myJSObject = {
-        'new_directory': directory+'/'+name,
-        'files': selected
-      }
+    function moveToDirAPI(myJSObject){
       var url = "{{ route('directory_create') }}";
       $.ajax(url, {
         data : JSON.stringify(myJSObject),
@@ -254,27 +248,71 @@
       }).done(function( data ) {
         window.location.reload();
       });
-
-      console.log(selected);
-
     }
 
-    function toggleSubdirSelection(){
-        var element = $('#subdir_selection');
+    function moveFiles(){
+      var selected = getSelectedList();
+
+      var name = prompt("Vers où depasser les fichiers ?");
+      if(!name || name.length === 0){
+        return false;
+      }
+
+      var myJSObject = {
+        'destination_directory': name,
+        'files': selected
+      }
+      moveToDirAPI(myJSObject);
+    }
+
+    function createSubdir(){
+      var selected = getSelectedList();
+
+      var name = prompt("Quel nom donner au dossier ?");
+      if(!name || name.length === 0){
+        return false;
+      }
+
+      var myJSObject = {
+        'new_directory': directory+'/'+name,
+        'files': selected
+      }
+      moveToDirAPI(myJSObject);
+    }
+
+    btn_mode_selection = $('#btn_selection');
+    label_mode_selection_on='<i class="fas fa-hand-pointer"></i> Mode selection';
+    label_mode_selection_off='<i class="fas fa-hand-pointer"></i> Desactiver la selection';
+
+    btn_dir_create = $('#btn_dir_create');
+    label_create_single='<i class="fas fa-folder-plus"></i> Créer un dossier';
+    label_create_and_fill='<i class="fas fa-folder-plus"></i> Créer un dossier avec la selection';
+
+    btn_move = $('#btn_move');
+
+    btn_mode_selection.html(label_mode_selection_on);
+    btn_dir_create.html(label_create_single);
+    btn_move.hide();
+
+    function toggleSelectionMode(){
         if(subdir_enabled){
             subdir_selection.disable();
             file_selection.disable();
             getSelectedFolders().removeClass('active');
+            getSelectedFiles().removeClass('active');
             updateActiveSubDirs();
-            element.html('Activer la selection');
-        }
-        else{
+            updateActiveFiles();
+            btn_mode_selection.html(label_mode_selection_on);
+            btn_dir_create.html(label_create_single);
+            btn_move.hide();
+        } else {
             subdir_selection.enable();
             file_selection.enable();
-            element.html('Desactiver la selection');
+            btn_mode_selection.html(label_mode_selection_off);
+            btn_dir_create.html(label_create_and_fill);
+            btn_move.show();
         }
         subdir_enabled = !subdir_enabled;
-        
     }
 
     $(document).ready(function() {
