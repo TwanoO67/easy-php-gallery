@@ -75,13 +75,11 @@
             <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
           </div>
           <div class="card-body zone " id="subdir_zone">
-            <div class="list-group">
-                @foreach ($directories as $dir)
-                    <a class="list-group-item" href="{{ $dir['dirlink'] }}" data-directory="{{ $dir['basename'] }}">
-                      <i class="nc-icon nc-box"></i> {{ $dir['basename'] }}
-                    </a><br/>
-                @endforeach
-            </div>
+              @foreach ($directories as $dir)
+                  <a class="btn btn-default" href="{{ $dir['dirlink'] }}" data-directory="{{ $dir['basename'] }}">
+                    <i class="nc-icon nc-box"></i> {{ $dir['basename'] }}
+                  </a>
+              @endforeach
           </div>
           <div class="card-footer ">
             <hr>
