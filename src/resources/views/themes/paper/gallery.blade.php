@@ -3,7 +3,7 @@
 @section('head')
   <title>{{ $title }}</title>
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-
+  <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
   <style>
     /* selectable */
 
@@ -17,6 +17,12 @@
         border:2px dashed #cbd3e3;
     }
 
+    div.nGY2GThumbnail.active{
+      border-style: solid;
+      border-width: 5px;
+      border-color: #007bff;
+    }
+
   </style>
 @endsection
 
@@ -27,22 +33,40 @@
   @endif
 
   <a class="navbar-brand" href="#">{{ $title }}</a>
-
-  &nbsp;&nbsp;&nbsp;<a class="btn btn-default explore" onclick="startScan()">Importer ce dossier</a>
-
 @endsection
 
 @section('content')
 
 <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-body">
+            <button class="btn btn-primary btn-sm" onclick="startScan()">
+              <i class="fab fa-searchengin"></i> Scanner le dossier
+            </button>
+      
+            <button class="btn btn-primary btn-sm" id='subdir_selection' onclick="toggleSubdirSelection()" >
+              <i class="fas fa-hand-pointer"></i> Mode selection
+            </button>
+
+            <button class="btn btn-primary btn-sm" onclick="createSubdirWithSelection()" >
+              <i class="fas fa-folder-plus"></i> Créer un dossier avec la selection
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
       <div class="row">
 
-      @if(count($directories) > 0)
       <div class="col-md-6">
         <div class="card ">
           <div class="card-header ">
             <h5 class="card-title">Sous-Dossier</h5>
-            <button id='subdir_selection' onclick="toggleSubdirSelection()" >Activer la selection</button>
+            
             <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
           </div>
           <div class="card-body zone " id="subdir_zone">
@@ -60,7 +84,6 @@
           </div>
         </div>
       </div>
-      @endif
 
       <div class="col-md-6">
         <div class="card ">
@@ -87,17 +110,18 @@
             <h5 class="card-title">Photos</h5>
             <p class="card-category">( {{ count($files) }} images )</p>
           </div>
-          <div class="card-body ">
-            <div data-nanogallery2>
+          <div class="card-body zone " id="file_zone">
+            <div id="your_nanogallery2" data-nanogallery2 >
               <?php $first = false; ?>
               @foreach ($files as $file)
-                  <a href="{{ $file['img_links']['full'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['filename'] }}"></a>
+                  <a href="{{ $file['img_links']['full'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['filename'] }}">
+                  </a>
               @endforeach
             </div>
           </div>
           <div class="card-footer ">
             <hr>
-            <div class="stats">
+            <div id="file_footer">
               <i class="fa fa-history"></i> Updated 3 minutes ago
             </div>
           </div>
@@ -113,7 +137,6 @@
 @section('footer')
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
   <script type="text/javascript" src="/assets/js/plugins/selectables.js"></script>
-  <link href="https://unpkg.com/nanogallery2/dist/css/nanogallery2.min.css" rel="stylesheet" type="text/css">
   <script>
     function statusUpdater() {
 			$.ajax({
@@ -158,11 +181,11 @@
     }
 
     function updateActiveSubDirs(){
-        var count = $('#subdir_zone a.active').length;
+        var count = getSelectedFolders().length;
         var icon = '<i class="fa fa-history"></i>';
         var element = $('#subdir_footer');
         if(count === 0){
-            element.html(icon+' Aucun selectionnées');
+            element.html(icon+' Aucun dossier selectionné');
         }
         else if(count === 1){
             element.html(icon+' 1 dossier selectionnée');
@@ -173,19 +196,65 @@
         console.log(count);
     }
 
+    function updateActiveFiles(){
+        var count = getSelectedFiles().length;
+        var icon = '<i class="fa fa-history"></i>';
+        var element = $('#file_footer');
+        if(count === 0){
+            element.html(icon+' Aucune photo selectionnée');
+        }
+        else if(count === 1){
+            element.html(icon+' 1 photo selectionnée');
+        }
+        else if(count > 1){
+            element.html(icon+' '+count+" photos selectionnées");
+        }
+        console.log(count);
+    }
+
+    function getSelectedFolders(){
+      return $('#subdir_zone a.active');
+    }
+
+    function getSelectedFiles(){
+      return $('#file_zone div.nGY2GThumbnail.active');
+    }
+
+    function createSubdirWithSelection(){
+      //recuperation des fichiers de la galleries
+      var data = $('#your_nanogallery2').nanogallery2('data');
+      var selected = data.items.filter(function(item){
+        if(item.$elt && item.$elt[0].className === "nGY2GThumbnail active"){
+          return true;
+        }
+        return false;
+      });
+
+      selected = selected.map(function(gal_item){
+        let url = gal_item.src.replace('/convert/unsafe/0x0','');
+        return url;
+      });
+
+      console.log(selected);
+
+    }
+
     function toggleSubdirSelection(){
         var element = $('#subdir_selection');
         if(subdir_enabled){
             subdir_selection.disable();
-            $('#subdir_zone a.active').removeClass('active');
+            file_selection.disable();
+            getSelectedFolders().removeClass('active');
             updateActiveSubDirs();
             element.html('Activer la selection');
         }
         else{
             subdir_selection.enable();
+            file_selection.enable();
             element.html('Desactiver la selection');
         }
         subdir_enabled = !subdir_enabled;
+        
     }
 
     $(document).ready(function() {
@@ -213,6 +282,32 @@
             onDeselect: function(el){
                 console.log('on deselect');
                 updateActiveSubDirs();
+            } // event fired on every item when selected.
+        });
+
+        file_selection = new Selectables({
+            elements: '.nGY2GThumbnail',
+            zone: '#file_zone',
+            selectedClass: 'active', // class name to apply to seleted items
+            moreUsing: 'shiftKey', //altKey,ctrlKey,metaKey   // add more to selection
+            enabled: false, //false to .enable() at later time
+
+            start: function(){
+                console.log('on start');
+                console.log('Starting selection on ' + this.elements + ' in ' + this.zone);
+            }, //  event on selection start
+            stop: function(){
+                console.log('on stop');
+                console.log('Stopped selection on ' + this.elements + ' in ' + this.zone);
+
+            }, // event on selection end
+            onSelect: function(el){
+                console.log('on select');
+                updateActiveFiles();
+            }, // event fired on every item when selected.
+            onDeselect: function(el){
+                console.log('on deselect');
+                updateActiveFiles();
             } // event fired on every item when selected.
         });
 
