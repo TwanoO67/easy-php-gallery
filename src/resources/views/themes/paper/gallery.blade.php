@@ -53,6 +53,10 @@
             <button class="btn btn-primary btn-sm" id='btn_move' onclick="moveFiles()">
               <i class="fas fa-arrows-alt"></i> Deplacer
             </button>
+
+            <button class="btn btn-primary btn-sm" id='btn_delete' onclick="deleteFiles()">
+              <i class="fas fa-trash"></i> Supprimer
+            </button>
           </div>
         </div>
       </div>
@@ -72,7 +76,9 @@
           <div class="card-body zone " id="subdir_zone">
             <div class="list-group">
                 @foreach ($directories as $dir)
-                    <a class="list-group-item" href="{{ $dir['dirlink'] }}" ><i class="nc-icon nc-box"></i> {{ $dir['basename'] }}</a><br/>
+                    <a class="list-group-item" href="{{ $dir['dirlink'] }}" data-directory="{{ $dir['basename'] }}">
+                      <i class="nc-icon nc-box"></i> {{ $dir['basename'] }}
+                    </a><br/>
                 @endforeach
             </div>
           </div>
@@ -183,7 +189,7 @@
     }
 
     function updateActiveSubDirs(){
-        var count = getSelectedFolders().length;
+        var count = getSelectedFoldersHTML().length;
         var icon = '<i class="fa fa-history"></i>';
         var element = $('#subdir_footer');
         if(count === 0){
@@ -199,7 +205,7 @@
     }
 
     function updateActiveFiles(){
-        var count = getSelectedFiles().length;
+        var count = getSelectedFilesHTML().length;
         var icon = '<i class="fa fa-history"></i>';
         var element = $('#file_footer');
         if(count === 0){
@@ -214,33 +220,50 @@
         console.log(count);
     }
 
-    function getSelectedFolders(){
+    function getSelectedFoldersHTML(){
       return $('#subdir_zone a.active');
     }
 
-    function getSelectedFiles(){
+    function getSelectedFilesHTML(){
       return $('#file_zone div.nGY2GThumbnail.active');
     }
 
-    function getSelectedList(){
+    function getSelectedFiles(){
       //recuperation des fichiers de la galleries
       var data = $('#your_nanogallery2').nanogallery2('data');
-      var selected = data.items.filter(function(item){
+      var files = data.items.filter(function(item){
         if(item.$elt && item.$elt[0].className === "nGY2GThumbnail active"){
           return true;
         }
         return false;
       });
 
-      selected = selected.map(function(gal_item){
+      files = files.map(function(gal_item){
         let url = gal_item.src.replace('/convert/unsafe/0x0','');
         return url;
       });
-      return selected;
+
+      return files;
+    }
+
+    function getSelectedDirs(){
+      //recuperation des dossiers
+      var dir = [];
+      getSelectedFoldersHTML().each((index,d) => {
+        dir.push( $(d).data('directory') );
+      });
+      return dir;
+    }
+
+    //recuperation des fichiers et dossiers
+    function getSelectedList(){
+      var dir = getSelectedDirs()
+      var files = getSelectedFiles()
+      return dir.concat(files);
     }
 
     function moveToDirAPI(myJSObject){
-      var url = "{{ route('directory_create') }}";
+      var url = "{{ route('storage_create') }}";
       $.ajax(url, {
         data : JSON.stringify(myJSObject),
         contentType : 'application/json',
@@ -248,6 +271,30 @@
       }).done(function( data ) {
         window.location.reload();
       });
+    }
+
+    function deleteFiles(){
+      var selected = getSelectedFiles();
+      var selected_dir = getSelectedDirs();
+
+      if( confirm( "Etes vous sur de vouloir supprimer ? \n"
+      +" - "+selected.length+" fichiers \n"
+      +" - "+selected_dir.length+" dossiers"
+      ) ){
+        var myJSObject = {
+          'files': selected,
+          'directories': selected_dir
+        }
+        var url = "{{ route('storage_delete') }}";
+        $.ajax(url, {
+          data : JSON.stringify(myJSObject),
+          contentType : 'application/json',
+          type : 'POST'
+        }).done(function( data ) {
+          window.location.reload();
+        });
+      }
+  
     }
 
     function moveFiles(){
@@ -289,28 +336,32 @@
     label_create_and_fill='<i class="fas fa-folder-plus"></i> Créer un dossier avec la selection';
 
     btn_move = $('#btn_move');
+    btn_delete = $('#btn_delete');
 
     btn_mode_selection.html(label_mode_selection_on);
     btn_dir_create.html(label_create_single);
     btn_move.hide();
+    btn_delete.hide();
 
     function toggleSelectionMode(){
         if(subdir_enabled){
             subdir_selection.disable();
             file_selection.disable();
-            getSelectedFolders().removeClass('active');
-            getSelectedFiles().removeClass('active');
+            getSelectedFoldersHTML().removeClass('active');
+            getSelectedFilesHTML().removeClass('active');
             updateActiveSubDirs();
             updateActiveFiles();
             btn_mode_selection.html(label_mode_selection_on);
             btn_dir_create.html(label_create_single);
             btn_move.hide();
+            btn_delete.hide();
         } else {
             subdir_selection.enable();
             file_selection.enable();
             btn_mode_selection.html(label_mode_selection_off);
             btn_dir_create.html(label_create_and_fill);
             btn_move.show();
+            btn_delete.show();
         }
         subdir_enabled = !subdir_enabled;
     }

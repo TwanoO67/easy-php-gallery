@@ -20,4 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/scan/start', 'APIController@scan_start')->name('scan_start');
 Route::get('/scan/status', 'APIController@scan_status')->name('scan_status');
 
-Route::post('/directory/create', 'StorageController@create')->name('directory_create');
+Route::post('/directory/create', 'StorageController@create')->name('storage_create');
+Route::post('/directory/delete', 'StorageController@delete')->name('storage_delete');

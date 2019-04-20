@@ -58,4 +58,37 @@ class StorageController extends Controller
 
         return response()->json($destination, 201);
     }
+
+    public function delete(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'files' => 'array',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors'  => $validator->errors()
+            ], 422);
+        }
+
+        $disk = Storage::disk("dockervolume");
+
+        $nb = 0;
+        if($data['files'] && count($data['files']) > 0){
+            foreach($data['files'] as $file){
+                $disk->delete($file);
+                $nb++;
+            }
+        }
+
+        if($data['directories'] && count($data['directories']) > 0){
+            foreach($data['directories'] as $dir){
+                $disk->deleteDirectory($dir);
+                $nb++;
+            }
+        }
+
+        return response()->json($nb, 201);
+    }
 }
