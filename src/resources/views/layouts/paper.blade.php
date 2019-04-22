@@ -71,15 +71,15 @@
             </a>
           </li>
 
-          <li>
-            <a href="/404">
+          <li lass="{{ request()->is('albums') ? 'active' : '' }}">
+            <a href="{{ route('albums') }}">
               <i class="nc-icon nc-bell-55"></i>
               <p>Albums</p>
             </a>
           </li>
 
-          <li>
-            <a href="/404">
+          <li lass="{{ request()->is('admin') ? 'active' : '' }}">
+            <a href="{{ route('admin') }}">
               <i class="nc-icon nc-tile-56"></i>
               <p>Administration</p>
             </a>
