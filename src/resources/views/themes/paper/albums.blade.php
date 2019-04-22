@@ -26,33 +26,20 @@
 
       <div class="col-md-12">
             <div class="card">
-                <div class="row">
 
-                    <div class="col-md-6">
-                        <div class="card-header">
-                            <h4 class="card-title">Albums</h4>
-                        </div>
-                        <div class="card-content">
-                            @foreach ($albums as $album)
-                                <button class="btn btn-default btn-fill btn-wd" onclick="goto('{{ route('album', ['id' => $album->id]) }}')">{{$album->name}}</button>
-                            @endforeach
-                            @if(count($albums) === 0)
-                                <span>Pas d'album encore disponible. Il faut attendre un import ?</span>
-                            @endif
-
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card-header">
-                            <h4 class="card-title">Personnes</h4>
-                        </div>
-                        <div class="card-content">
-                            Fonctionnalité à venir...
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <h4 class="card-title">Albums</h4>
+                </div>
+                <div class="card-content">
+                    @foreach ($albums as $album)
+                        <button class="btn btn-default btn-fill btn-wd" onclick="goto('{{ route('album', ['id' => $album->id]) }}')">{{$album->directory}}</button>
+                    @endforeach
+                    @if(count($albums) === 0)
+                        <span>Pas d'album encore disponible. Il faut attendre un import ?</span>
+                    @endif
 
                 </div>
+        
             </div>
         </div>
 

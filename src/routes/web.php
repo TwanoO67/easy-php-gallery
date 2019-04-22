@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/autocomplete', 'AdminController@autocomplete');
 
     Route::get('/albums', 'AlbumController@index')->name('albums');
-    Route::get('/album', 'AlbumController@index')->name('album');
+    Route::get('/album/{id}', 'AlbumController@album')->name('album');
     Route::post('/album', 'AlbumController@store')->name('album_create');
     Route::get('/album/delete/{id}', 'AlbumController@delete')->name('album_delete');
 
