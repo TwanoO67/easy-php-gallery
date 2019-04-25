@@ -1,5 +1,7 @@
 # EasyPHPhotoGallery
 
+[![Build Status](https://travis-ci.org/TwanoO67/easy-php-gallery.svg?branch=develop)](https://travis-ci.org/TwanoO67/easy-php-gallery)
+
 ![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/master/demo.png)
 
 ## Feature
