@@ -46,7 +46,7 @@
             <button class="btn btn-primary btn-sm" onclick="startScan()">
               <i class="fab fa-searchengin"></i> Scanner le dossier
             </button>
-      
+
             <button class="btn btn-primary btn-sm" id='btn_selection' onclick="toggleSelectionMode()" ></button>
 
             <button class="btn btn-primary btn-sm" id='btn_dir_create' onclick="createSubdir()" ></button>
@@ -71,7 +71,7 @@
         <div class="card ">
           <div class="card-header ">
             <h5 class="card-title">Sous-Dossier</h5>
-            
+
             <p class="card-category"> ( {{ count($directories) }} dossiers )</p>
           </div>
           <div class="card-body zone " id="subdir_zone">
@@ -280,6 +280,21 @@
         type : 'POST'
       }).done(function( data ) {
         window.location.reload();
+      })
+      .fail(function(error) {
+        console.log(error);
+        $.notify({
+            icon: "nc-icon nc-settings-gear-65",
+            message: "error.message"
+
+        }, {
+            type: "error",
+            timer: 5,
+            placement: {
+                from: 'top',
+                align: 'right'
+            }
+        });
       });
     }
 
@@ -302,9 +317,22 @@
           type : 'POST'
         }).done(function( data ) {
           window.location.reload();
+        }).fail(function(error) {
+            console.log(error);
+            $.notify({
+                icon: "nc-icon nc-settings-gear-65",
+                message: "error.message"
+            }, {
+                type: "error",
+                timer: 5,
+                placement: {
+                    from: 'top',
+                    align: 'right'
+                }
+            });
         });
       }
-  
+
     }
 
     function moveFiles(){
