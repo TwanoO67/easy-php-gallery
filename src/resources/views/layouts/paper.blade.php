@@ -52,8 +52,8 @@
               <p>Fichiers</p>
             </a>
           </li>
-          <li >
-            <a href="/404">
+          <li lass="{{ request()->is('map') ? 'active' : '' }}">
+            <a href="{{ route('map') }}">
               <i class="nc-icon nc-pin-3"></i>
               <p>Carte</p>
             </a>

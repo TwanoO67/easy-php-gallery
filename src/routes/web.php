@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/tags', 'TagController@index')->name('tags');
     Route::get('/tags/{id}', 'TagController@tag')->name('tag');
 
-    
+    Route::get('/map', 'MapController@index')->name('map');
+
+
 
 });
