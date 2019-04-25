@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Storage;
-use App\User;
+use App\Models\User;
 
 class StorageController extends Controller
 {
@@ -48,7 +48,7 @@ class StorageController extends Controller
         else{
             $destination = $data['destination_directory'];
         }
-        
+
 
         if($data['files'] && count($data['files']) > 0){
             foreach($data['files'] as $file){

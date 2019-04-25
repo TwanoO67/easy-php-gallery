@@ -8,7 +8,7 @@ use Symfony\Component\Process\Process as Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Storage;
 
-use App\Setting;
+use App\Models\Setting;
 
 
 class APIController extends Controller

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Tag;
-use App\Photo;
+use App\Models\Tag;
+use App\Models\Photo;
 
-class TagsController extends Controller
+class TagController extends Controller
 {
 
     //renvoi le lien vers thumbor de l'image

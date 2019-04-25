@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Album;
-use App\Photo;
+use App\Models\Album;
+use App\Models\Photo;
 use Redirect;
 
 class AlbumController extends Controller

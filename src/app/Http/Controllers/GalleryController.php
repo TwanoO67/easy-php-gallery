@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Storage;
-use App\User;
+use App\Models\User;
 
 class GalleryController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
@@ -14,6 +14,6 @@ class Album extends Eloquent
     }
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 }

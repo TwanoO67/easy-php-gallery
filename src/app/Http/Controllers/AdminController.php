@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use App\User;
+use App\Models\User;
 use Redirect;
 use Auth;
 use Storage;
 use Response;
-use App\Album;
+use App\Models\Album;
 
 class AdminController extends Controller
 {
@@ -91,7 +91,7 @@ class AdminController extends Controller
         $directories[$dir] = $dir; //basename($dir),
       }
 
-      
+
 
       return view("themes/paper/admin",compact('albums','users','disks','access','themes','directories'));
 

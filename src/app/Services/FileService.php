@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use Storage;
-use App\Photo;
-use App\Setting;
-use App\Tag;
+use App\Models\Photo;
+use App\Models\Setting;
+use App\Models\Tag;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -59,7 +59,7 @@ class FileService
         return $path;
     }
 
-    private static function import_file_in_dir($directory){
+    private static function import_files_from_dir($directory){
         $disk = Storage::disk("dockervolume");
         $files = $disk->files($directory);
         $format_date = "Y/m/d G:i:s";
@@ -117,7 +117,7 @@ class FileService
         }
         //recuperation des sous dossiers
         foreach ($disk->directories($directory) as $dir) {
-            self::import_file_in_dir($dir);
+            self::import_files_from_dir($dir);
         }
     }
 
@@ -134,7 +134,7 @@ class FileService
         );
 
         //preparation des dossiers
-        self::import_file_in_dir($directory);
+        self::import_files_from_dir($directory);
 
     }
 }
