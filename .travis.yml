@@ -4,7 +4,8 @@ services:
   - docker
 
 before_install:
-- rm -rf node_modules
+- cp .env.example .env
+- sed -i -e "s#PHOTO_DIR=/home/weber/Images/#PHOTO_DIR=/#g" .env
 - docker-compose run php bash -c "/var/www/html/init.sh"
 
 script:
