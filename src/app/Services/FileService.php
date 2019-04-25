@@ -125,12 +125,14 @@ class FileService
     {
         $directory = '/';
 
-        Setting::updateOrCreate([
-            'type' => 'scan'],
-            [
-                'todo' => 0,
-                'done' => 0
-            ]
+        Setting::updateOrCreate(
+          [
+            'type' => 'scan'
+          ],
+          [
+            'todo' => 0,
+            'done' => 0
+          ]
         );
 
         //preparation des dossiers

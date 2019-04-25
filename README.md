@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/TwanoO67/easy-php-gallery.svg?branch=develop)](https://travis-ci.org/TwanoO67/easy-php-gallery)
 
-![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/master/demo.png)
+[![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/master/demo.png)](https://youtu.be/W7Ff-VXIsFQ)
 
 ## Feature
 
