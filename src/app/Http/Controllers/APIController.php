@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\Process\Process as Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Storage;
+use Illuminate\Support\Facades\Artisan;
 
 use App\Models\Setting;
 
@@ -20,22 +21,26 @@ class APIController extends Controller
      */
     public function scan_start()
     {
-       $process = new Process('cd /var/ww/html && touch mytralala && /usr/bin/php artisan import:scan && echo toto &');
+        \Log::info("scan start");
+        Artisan::call('import:scan');
 
+    //    $process = new Process('cd /var/ww/html && touch mytralala && /usr/bin/php artisan import:scan && echo toto &');
 
-       $process->run();
+    //    $process->run();
 
-       // executes after the command finishes
-       if (!$process->isSuccessful()) {
-          return $process->getOutput();
-       }
-       return $process->getOutput();
+    //    // executes after the command finishes
+    //    if (!$process->isSuccessful()) {
+    //       return $process->getOutput();
+    //    }
+    //    return $process->getOutput();
 
-       $process->start();
-       $set = Setting::where('type','scan')->first();
-       $set->todo = 0;
-       $set->done = 0;
-       $set->save();
+    //    $process->start();
+    //    $set = Setting::where('type','scan')->first();
+    //    $set->todo = 0;
+    //    $set->done = 0;
+    //    $set->save();
+
+       
        return 'started';
     }
 
