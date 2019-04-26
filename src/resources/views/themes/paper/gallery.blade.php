@@ -55,6 +55,10 @@
               <i class="fas fa-arrows-alt"></i> Deplacer
             </button>
 
+            <button class="btn btn-primary btn-sm" id='btn_album' onclick="addFilesToAlbum()">
+            <i class="fas fa-arrows-alt"></i> Ajouter à l'album
+            </button>
+
             <button class="btn btn-primary btn-sm" id='btn_delete' onclick="deleteFiles()">
               <i class="fas fa-trash"></i> Supprimer
             </button>
@@ -136,6 +140,7 @@
   <script type="text/javascript" src="https://unpkg.com/nanogallery2/dist/jquery.nanogallery2.min.js"></script>
   <script type="text/javascript" src="/assets/js/plugins/selectables.js"></script>
   <script src="https://transloadit.edgly.net/releases/uppy/v0.30.3/uppy.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
   <script>
     var directory = {!! json_encode($directory) !!};
 
@@ -191,7 +196,8 @@
         }
       });
       $.ajax({
-        'url': '/api/scan/start'
+        'url': '/api/scan/start',
+        'path': directory
       }).done(function(r){
         statusUpdater();
       });
@@ -298,6 +304,32 @@
       });
     }
 
+    function addToAlbumAPI(myJSObject){
+      var url = "{{ route('album_files') }}";
+      $.ajax(url, {
+        data : JSON.stringify(myJSObject),
+        contentType : 'application/json',
+        type : 'POST'
+      }).done(function( data ) {
+        window.location.reload();
+      })
+      .fail(function(error) {
+        console.log(error);
+        $.notify({
+            icon: "nc-icon nc-settings-gear-65",
+            message: "error.message"
+
+        }, {
+            type: "error",
+            timer: 5,
+            placement: {
+                from: 'top',
+                align: 'right'
+            }
+        });
+      });
+    }
+
     function deleteFiles(){
       var selected = getSelectedFiles();
       var selected_dir = getSelectedDirs();
@@ -335,25 +367,86 @@
 
     }
 
-    function moveFiles(){
-      var selected = getSelectedList();
+    async function moveFiles(){
+        var selected = getSelectedList();
 
-      var name = prompt("Vers où depasser les fichiers ?");
-      if(!name || name.length === 0){
-        return false;
-      }
+        const {value: name} = await Swal.fire({
+            title: 'Vers où depasser les fichiers ?',
+            input: 'select',
+            inputOptions: {
+                @foreach ($child_directories as $dir)
+                    '{{$dir}}': '{{$dir}}',
+                @endforeach
+            },
+            inputPlaceholder: 'Selectionner un dossier',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value !== '') {
+                    resolve()
+                } else {
+                    resolve('Merci de choisir un dossier')
+                }
+                })
+            }
+        });
 
-      var myJSObject = {
-        'destination_directory': name,
-        'files': selected
-      }
-      moveToDirAPI(myJSObject);
+        if (name) {
+            moveToDirAPI({
+                'destination_directory': name,
+                'files': selected
+            });
+        }
+
     }
 
-    function createSubdir(){
+    async function addFilesToAlbum(){
+
+        @if( count($albums) === 0 )
+            Swal.fire("Veuillez d'abord creer un album");
+            return false
+        @endif
+
+        const {value: id} = await Swal.fire({
+            title: 'Ajouter a l\'album ?',
+            input: 'select',
+            inputOptions: {
+                @foreach ($albums as $dir)
+                    '{{$dir->id}}': '{{$dir->name}}',
+                @endforeach
+            },
+            inputPlaceholder: 'Selectionner un album',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                return new Promise((resolve) => {
+                if (value !== '') {
+                    resolve()
+                } else {
+                    resolve('Merci de choisir un album')
+                }
+                })
+            }
+        });
+
+        if (id) {
+            addToAlbumAPI({
+                'album_id': id,
+                'files': getSelectedFiles(),
+                'folders' : getSelectedDirs()
+            });
+        }
+
+    }
+
+    async function createSubdir(){
       var selected = getSelectedList();
 
-      var name = prompt("Quel nom donner au dossier ?");
+    const {value: name} = await Swal.fire({
+        title: "Quel nom donner au dossier ?",
+        input: 'text',
+        inputPlaceholder: 'dossier'
+    })
+
       if(!name || name.length === 0){
         return false;
       }
@@ -366,6 +459,7 @@
     }
 
     btn_mode_selection = $('#btn_selection');
+
     label_mode_selection_on='<i class="fas fa-hand-pointer"></i> Mode selection';
     label_mode_selection_off='<i class="fas fa-hand-pointer"></i> Desactiver la selection';
 
@@ -375,11 +469,13 @@
 
     btn_move = $('#btn_move');
     btn_delete = $('#btn_delete');
+    btn_album = $('#btn_album');
 
     btn_mode_selection.html(label_mode_selection_on);
     btn_dir_create.html(label_create_single);
     btn_move.hide();
     btn_delete.hide();
+    btn_album.hide();
 
     function toggleSelectionMode(){
         if(subdir_enabled){
@@ -393,6 +489,7 @@
             btn_dir_create.html(label_create_single);
             btn_move.hide();
             btn_delete.hide();
+            btn_album.hide();
         } else {
             subdir_selection.enable();
             file_selection.enable();
@@ -400,6 +497,7 @@
             btn_dir_create.html(label_create_and_fill);
             btn_move.show();
             btn_delete.show();
+            btn_album.show();
         }
         subdir_enabled = !subdir_enabled;
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Album;
 use App\Models\Photo;
+use Auth;
 use Redirect;
 
 class AlbumController extends Controller
@@ -39,6 +40,27 @@ class AlbumController extends Controller
 
 
         return view($theme,compact('albums','title'));
+    }
+
+    public function album_files(Request $request){
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'album_id' => 'required',
+            'folders' =>'array',
+            'files' => 'array',
+        ]);
+
+        $album = Album::findOrFail($data['album_id']);
+
+        foreach($data['files'] as $path){
+            $album->files[] = $path;
+        }
+
+        foreach($data['folders'] as $dir_path){
+            $album->folders[] = $dir_path;
+        }
+        $album->save();
+        return 'ok';
     }
 
     public function album($id)
@@ -76,8 +98,7 @@ class AlbumController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'user_id'   => 'required',
-            'access_level' => 'required'
+            'access_level' => 'required|string'
         ]);
 
         if ($validator->fails()) {
@@ -90,9 +111,10 @@ class AlbumController extends Controller
 
         // store
         $new_album = new Album();
-        $new_album->user_id = $data['user_id'];
-        $new_album->directory = $dossier;
+        $new_album->user_id = Auth::user()->id;
+        $new_album->upload_directory = $dossier;
         $new_album->access_level = $data['access_level'];
+        $new_album->name = $data['name'];
         $new_album->theme = $data['theme'];
         $new_album->save();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Storage;
 use App\Models\User;
+use App\Models\Album;
 
 class GalleryController extends Controller
 {
@@ -105,6 +106,10 @@ class GalleryController extends Controller
             $files[] = $curfile;
         }
 
+        $child_directories = $disk->allDirectories();
+
+        $albums = Album::all();
+
         //theme par defaut
         $theme = "themes/paper/gallery";
         /*if($folder->theme){
@@ -116,6 +121,6 @@ class GalleryController extends Controller
         }*/
 
 
-        return view($theme,compact('title','directories','files','first','backlink','directory','parent'));
+        return view($theme,compact('title','directories','files','first','backlink','directory','parent', 'child_directories', 'albums'));
     }
 }

@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/albums', 'AlbumController@index')->name('albums');
     Route::get('/album/{id}', 'AlbumController@album')->name('album');
     Route::post('/album', 'AlbumController@store')->name('album_create');
+    Route::post('/album/files', 'AlbumController@album_files')->name('album_files');
     Route::get('/album/delete/{id}', 'AlbumController@delete')->name('album_delete');
 
     Route::get('/tags', 'TagController@index')->name('tags');

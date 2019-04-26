@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Gestion</div>
+                <div class="panel-heading"><h5>Administration</h5></div>
 
                 <div class="panel-body">
 
@@ -21,26 +21,29 @@
                       <br/>
                     @endforeach
                     <br/>
-                    <br/>
-                    <strong>Dossiers partagés:</strong><br/>
+                    <hr/>
+                    <strong>Albums partagés:</strong><br/>
                     <br/>
                     @foreach($albums as $album)
-                      Dossier: {{ $album->directory }} -
+                      album: {{ $album->directory }} -
                       Droits: {{ $album->access_level }} -
-                      User: {{ $album->user->email }} -
+                      Créateur: {{ $album->user->email }} -
                       Thême: {{ $album->theme }} -
                       <a href="{{ url('/gallery',['id' => $album->id]) }}"> Voir la gallerie</a>
 
                       <a href="{{ route('album_delete',['id' => $album->id]) }}"> Supprimer</a>
                       <br/>
                     @endforeach
+                    @if(count($albums) === 0)
+                        Aucun album partagé
+                    @endif
                     <br/>
-                    ou
+                    <hr/>
                     <br/>
-                    <b>Creer un nouveau dossier:</b><br/>
+                    <b>Creer un album partagé:</b><br/>
                     <form class="form" method="POST" action="{{ route('album_create') }}">
                         @csrf
-                        <div class="form-group">
+                        <!--div class="form-group">
                             <label for="user_id" class="col-md-4 col-form-label text-md-right">
                                 {{ __('Utilisateur') }}
                             </label>
@@ -49,14 +52,14 @@
                                 <option value="{{$user->id}}">{{$user->email}}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div-->
                         <div class="form-group">
-                            <label for="directory" class="col-md-4 col-form-label text-md-right">
-                                {{ __('Dossier') }}
+                            <label for="name" class="col-md-4 col-form-label text-md-right">
+                                {{ __('Nom') }}
                             </label>
-                            {{-- Form::select('directory', $directories, '') --}}
-                            <input type="text" id="directory" name="directory" placeholder="Chercher un dossier" />
+                            <input type='text' id="name" name="name" />
                         </div>
+
                         <div class="form-group">
                             <label for="access_level" class="col-md-4 col-form-label text-md-right">
                                 {{ __('Niveau d acces') }}
@@ -68,8 +71,17 @@
                                 <!-- add select R -->
                             </select>
                         </div>
+
+                        <div class="form-group">
+                            <label for="directory" class="col-md-4 col-form-label text-md-right">
+                                {{ __('Dossier pour les uploads') }}
+                            </label>
+                            {{-- Form::select('directory', $directories, '') --}}
+                            <input type="text" id="directory" name="directory" placeholder="Chercher un dossier" />
+                        </div>
+
                         <input type='hidden' name='theme' value="paper" />
-            
+
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">
                                 {{ __('Creer') }}
