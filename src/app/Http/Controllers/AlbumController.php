@@ -52,15 +52,17 @@ class AlbumController extends Controller
 
         $album = Album::findOrFail($data['album_id']);
 
-        foreach($data['files'] as $path){
-            $album->files[] = $path;
+        if(!isset($album->files)){
+            $album->files = [];
         }
+        $album->files = array_merge($album->files,$data['files']);
 
-        foreach($data['folders'] as $dir_path){
-            $album->folders[] = $dir_path;
+        if(!isset($album->folders)){
+            $album->folders = [];
         }
-        $album->save();
-        return 'ok';
+        $album->folders = array_merge($album->folders,$data['folders']);
+
+        return $album->save();
     }
 
     public function album($id)
@@ -68,13 +70,12 @@ class AlbumController extends Controller
         $album = Album::find($id);
         $title = "Albums ".$album->name;
 
-        $photos = $album->photos;
+        $photos = [];
 
-        foreach($photos as $photo){
-            $file = $photo->path;
+        foreach($album->files as $file){
 
-            //dd($file);
-            $photo->img_links = [
+            $photo = [];
+            $photo['img_links'] = [
                 "small" => $this->getImgLink($file,"640x360"),
                 "big" => $this->getImgLink($file,"1920x1080"),
                 "full" => $this->getImgLink($file,"0x0")

@@ -54,13 +54,11 @@ class GalleryController extends Controller
             $parent = $this->getDirLink( implode('/',$parents) );
         }
 
-        //$directory = /*'/';*/$request->input('dossier','/');
-        $id = 'todo';
         $backlink = false;
 
         //reglages
         $format_date = "Y/m/d G:i:s";
-        $title = "Gallerie ".$directory;
+        $title = "Dossier ".$directory;
         $default_fondecran = "/images/back.jpg";
 
         //preparation des dossiers

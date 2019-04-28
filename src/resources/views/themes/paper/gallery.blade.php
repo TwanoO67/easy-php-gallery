@@ -33,7 +33,10 @@
   <a href="{{$parent}}" class="btn btn-default explore">Retour</a>&nbsp;&nbsp;&nbsp;
   @endif
 
-  <a class="navbar-brand" href="#">{{ $title }}</a>
+  <a class="navbar-brand" href="#">{{ $title }}</a> 
+  <button class="btn btn-primary btn-sm" onclick="deleteCurrent()">
+    <i class="fas fa-trash"></i>
+  </button>
 @endsection
 
 @section('content')
@@ -330,19 +333,8 @@
       });
     }
 
-    function deleteFiles(){
-      var selected = getSelectedFiles();
-      var selected_dir = getSelectedDirs();
-
-      if( confirm( "Etes vous sur de vouloir supprimer ? \n"
-      +" - "+selected.length+" fichiers \n"
-      +" - "+selected_dir.length+" dossiers"
-      ) ){
-        var myJSObject = {
-          'files': selected,
-          'directories': selected_dir
-        }
-        var url = "{{ route('storage_delete') }}";
+    function deleteApi(myJSObject){
+      var url = "{{ route('storage_delete') }}";
         $.ajax(url, {
           data : JSON.stringify(myJSObject),
           contentType : 'application/json',
@@ -363,6 +355,35 @@
                 }
             });
         });
+    }
+
+    function deleteCurrent(){
+      if( confirm( "Etes vous sur de vouloir supprimer le dossier courant ? \n"
+      +" - "+directory
+      ) ){
+        var myJSObject = {
+          'files': [],
+          'directories': [ directory ]
+        }
+        deleteApi(myJSObject);
+        
+      }
+    }
+
+    function deleteFiles(){
+      var selected = getSelectedFiles();
+      var selected_dir = getSelectedDirs();
+
+      if( confirm( "Etes vous sur de vouloir supprimer ? \n"
+      +" - "+selected.length+" fichiers \n"
+      +" - "+selected_dir.length+" dossiers"
+      ) ){
+        var myJSObject = {
+          'files': selected,
+          'directories': selected_dir
+        }
+        deleteApi(myJSObject);
+        
       }
 
     }

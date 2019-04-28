@@ -25,4 +25,7 @@ Route::post('/storage/create', 'StorageController@create')->name('storage_create
 Route::post('/storage/delete', 'StorageController@delete')->name('storage_delete');
 
 
+Route::post('/album/files', 'AlbumController@album_files')->name('album_files');
+
+
 
