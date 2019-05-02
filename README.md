@@ -52,6 +52,12 @@ password: secret
 
 4) Then disconnect and use your new account to definitively delete this account for security reasons
 
+## Recommandations
+
+To optimize your experience, you can think your mobile phone photo dir with this app, by using sync apps like this:
+
+https://play.google.com/store/apps/details?id=dk.tacit.android.foldersync.lite&hl=fr
+
 ## Source
 
 TensorflowJS tuto => https://github.com/ADLsourceCode/TensorflowJS.git
