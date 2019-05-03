@@ -6,11 +6,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Album;
 use App\Models\Photo;
+use App\Services\FileService;
 use Auth;
 use Redirect;
 
 class AlbumController extends Controller
 {
+
+    private $fileservice;
+    public function __construct(FileService $file)
+    {
+        $this->fileservice = $file;
+    }
 
     //renvoi le lien vers thumbor de l'image
     private function getImgLink($file,$resolution=""){
@@ -42,6 +49,10 @@ class AlbumController extends Controller
         return view($theme,compact('albums','title'));
     }
 
+    public function fullPath($path){
+        return $this->fileservice->fullPath('/',$path);
+    }
+
     public function album_files(Request $request){
         $data = $request->all();
         $validator = Validator::make($data, [
@@ -52,17 +63,30 @@ class AlbumController extends Controller
 
         $album = Album::findOrFail($data['album_id']);
 
+        $photos = Photo::whereIn('path', array_map(array($this, 'fullPath'),$data['files']) )->get();
+
+        foreach($photos as $photo){
+            $album->photos()->save($photo);
+        }
+
+        /*dd($photos);
+
         if(!isset($album->files)){
             $album->files = [];
         }
-        $album->files = array_merge($album->files,$data['files']);
+
+        $album->files = array_merge($album->files,$photos->toArray());*/
+
+        dd($photos);
 
         if(!isset($album->folders)){
             $album->folders = [];
         }
         $album->folders = array_merge($album->folders,$data['folders']);
 
-        return $album->save();
+        $album->save();
+        return response()->json($album, 200);
+
     }
 
     public function album($id)

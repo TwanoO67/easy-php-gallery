@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Service\FileService;
+use App\Services\FileService;
 
 class ImportScan extends Command
 {

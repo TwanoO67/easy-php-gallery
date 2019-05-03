@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use Storage;
 use App\Models\Photo;
@@ -50,12 +50,13 @@ class FileService
         return (substr($string, -$len) === $endString);
     }
 
-    private static function fullPath($directory,$file){
+    public static function fullPath($directory,$file){
         $path = '/mydata'.$directory;
         if( ! self::endsWith($path, '/') ){
             $path .= '/';
         }
         $path .= $file;
+        $path = str_replace('//','/',$path);
         return $path;
     }
 
