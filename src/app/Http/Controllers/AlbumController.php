@@ -64,20 +64,10 @@ class AlbumController extends Controller
         $album = Album::findOrFail($data['album_id']);
 
         $photos = Photo::whereIn('path', array_map(array($this, 'fullPath'),$data['files']) )->get();
-
+    
         foreach($photos as $photo){
             $album->photos()->save($photo);
         }
-
-        /*dd($photos);
-
-        if(!isset($album->files)){
-            $album->files = [];
-        }
-
-        $album->files = array_merge($album->files,$photos->toArray());*/
-
-        dd($photos);
 
         if(!isset($album->folders)){
             $album->folders = [];
@@ -94,27 +84,16 @@ class AlbumController extends Controller
         $album = Album::find($id);
         $title = "Albums ".$album->name;
 
-        $photos = [];
-
-        foreach($album->files as $file){
-
-            $photo = [];
-            $photo['img_links'] = [
-                "small" => $this->getImgLink($file,"640x360"),
-                "big" => $this->getImgLink($file,"1920x1080"),
-                "full" => $this->getImgLink($file,"0x0")
+        foreach($album->photos as $file){
+            $file->img_links = [
+                "small" => $this->getImgLink($file['path'],"640x360"),
+                "big" => $this->getImgLink($file['path'],"1920x1080"),
+                "full" => $this->getImgLink($file['path'],"0x0")
             ];
         }
 
         //theme par defaut
         $theme = "themes/paper/album";
-        /*if($album->theme){
-            $template = $album->theme."/gallery";
-            $store = Storage::disk("themes");
-            if($store->exists($template.'.blade.php')){
-                $theme = "themes/".$template;
-            }
-        }*/
 
         return view($theme,compact('album','title','photos'));
     }

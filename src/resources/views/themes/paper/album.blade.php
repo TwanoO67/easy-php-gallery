@@ -20,18 +20,18 @@
 <div class="content">
       <div class="row">
 
-      @if(count($album->files) > 0)
+      @if(count($album->photos) > 0)
       <div class="col-md-12">
         <div class="card ">
           <div class="card-header ">
-            <h5 class="card-title">album->files</h5>
-            <p class="card-category">( {{ count($album->files) }} images )</p>
+            <h5 class="card-title">Photos</h5>
+            <p class="card-category">( {{ count($album->photos) }} images )</p>
           </div>
           <div class="card-body ">
             <div data-nanogallery2>
               <?php $first = false; ?>
-              @foreach ($album->files as $file)
-                  <a href="{{ $file['img_links']['full'] }}" data-ngThumb="{{ $file['img_links']['small'] }}" data-ngdesc="{{ $file['path'] }}"></a>
+              @foreach ($album->photos as $file)
+                  <a href="{{ $file->img_links['full'] }}" data-ngThumb="{{ $file->img_links['small'] }}" data-ngdesc="{{ $file->basename }}"></a>
               @endforeach
             </div>
           </div>

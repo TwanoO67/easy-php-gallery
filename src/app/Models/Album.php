@@ -10,7 +10,7 @@ class Album extends Eloquent
 
     public function photos()
     {
-        return $this->hasMany(Photo::class);
+        return $this->belongsToMany(Photo::class);
     }
 
     public function user(){
