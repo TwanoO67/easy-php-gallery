@@ -1,7 +1,9 @@
 # EasyPHPhotoGallery
 
 Photo Gallery for your own NAS server.
-This project use your already existing image folder, and you organize and share its pictures.
+
+This project use your already existing image folder, and let you organize and share your pictures.
+
 It handle Folders, Tags, Thumbnails, Virtual Albums, Face Detection, and many more to come.
 
 [![Build Status](https://travis-ci.org/TwanoO67/easy-php-gallery.svg?branch=develop)](https://travis-ci.org/TwanoO67/easy-php-gallery)
@@ -28,8 +30,12 @@ Demonstration of the tagging process: [EPG Tagging on Youtube](https://youtu.be/
 * [ ] Fully tested API with PHPUnit
 * [ ] Fully tested feature with Cypress
 
+
 BTW: This project doesn't need to move your picture in order to work.
-So you can keep them ordered on your disk as you want. Finally!
+
+And it doesn't copy your picture binary data during import.
+
+So you can keep your files ordered as you want, and it reduce storage usage. Finally!
 
 ## Installation
 
@@ -63,7 +69,7 @@ password: secret
 
 ## Recommandations
 
-To optimize your experience, you can think your mobile phone photo folder with this app, by using sync apps like this:
+To optimize your experience, you can sync your mobile phone photo folder with this app, by using apps like:
 
 https://play.google.com/store/apps/details?id=dk.tacit.android.foldersync.lite&hl=fr
 
@@ -72,8 +78,11 @@ https://play.google.com/store/apps/details?id=dk.tacit.android.foldersync.lite&h
 TensorflowJS tuto => https://github.com/ADLsourceCode/TensorflowJS.git
 http://jamesthom.as/blog/2018/08/07/machine-learning-in-node-dot-js-with-tensorflow-dot-js/
 
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
+## Donation
+
+Any help is always appreciated ;)
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.me/twanoo)
 
 [![Beerpay](https://beerpay.io/TwanoO67/easy-php-gallery/badge.svg?style=beer-square)](https://beerpay.io/TwanoO67/easy-php-gallery)  [![Beerpay](https://beerpay.io/TwanoO67/easy-php-gallery/make-wish.svg?style=flat-square)](https://beerpay.io/TwanoO67/easy-php-gallery?focus=wish)
 =======
