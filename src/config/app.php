@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'EasyPHPGallery'),
 
+    'thumbor_key' => env('THUMBOR_KEY', 'EPG_SECRET_WHATSOEVER'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -174,12 +177,12 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ThumborServiceProvider::class,
 
         //Ajout AW
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Jenssegers\Mongodb\Auth\PasswordResetServiceProvider::class,
         Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
-
     ],
 
     /*
@@ -230,7 +233,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
 
 ];

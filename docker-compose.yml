@@ -2,7 +2,7 @@ version: '3.3'
 services:
    thumbor:
      container_name: EPG_thumbor
-     image: apsl/thumbor:6.3.0
+     image: apsl/thumbor:6.6.0
      volumes:
        - "${PHOTO_DIR}:/mydata"
        - ./config/thumbor/imaging.py:/usr/local/lib/python2.7/site-packages/thumbor/handlers/imaging.py
@@ -11,6 +11,8 @@ services:
        - LOADER=thumbor.loaders.file_loader
        - RESULT_STORAGE_STORES_UNSAFE=True
        - STORAGE=thumbor.storages.no_storage
+       - SECURITY_KEY=EPG_SECRET_WHATSOEVER
+       #- ALLOW_UNSAFE_URL=True
      restart: always
 
    php:

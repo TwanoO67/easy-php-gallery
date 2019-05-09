@@ -13,6 +13,7 @@
         "jenssegers/mongodb": "^3.5",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "99designs/phumbor": "^1.2",
         "mostafamaklad/laravel-permission-mongodb": "^1.10"
     },
     "require-dev": {

@@ -6,16 +6,21 @@ use Illuminate\Http\Request;
 use Storage;
 use App\Models\User;
 use App\Models\Album;
+use App\Services\ThumborService;
+
 
 class GalleryController extends Controller
 {
+    private $thumbor;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ThumborService $thumbor)
     {
+        $this->thumbor = $thumbor;
         $this->middleware('auth');
     }
 
@@ -23,11 +28,6 @@ class GalleryController extends Controller
         $size = array('o','Ko','Mo','Go','To','Po','Eo','Zo','Yo');
         $factor = floor((strlen($bytes) - 1) / 3);
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$size[$factor];
-    }
-
-    //renvoi le lien vers thumbor de l'image
-    private function getImgLink($file,$resolution=""){
-      return "/convert/unsafe/".$resolution.'/'.$file;
     }
 
     private function getDirLink($dossier){
@@ -91,15 +91,15 @@ class GalleryController extends Controller
                 "mimetype" => $type,
                 "size" => $this->human_filesize($disk->size($file)),
                 "img_links" => [
-                    "small" => $this->getImgLink($file,"640x360"),
-                    "big" => $this->getImgLink($file,"1920x1080"),
-                    "full" => $this->getImgLink($file,"0x0")
+                    "small" => $this->thumbor->getImgLink($file,"640x360"),
+                    "big" => $this->thumbor->getImgLink($file,"1920x1080"),
+                    "full" => $this->thumbor->getImgLink($file,"0x0")
                 ]
             ];
 
 
 
-            if($first == $default_fondecran) $first = $this->getImgLink($file,"1920x700");
+            if($first == $default_fondecran) $first = $this->thumbor->getImgLink($file,"1920x700");
 
             $files[] = $curfile;
         }

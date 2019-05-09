@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Album;
 use App\Models\Photo;
 use App\Services\FileService;
+use App\Services\ThumborService;
 use Auth;
 use Redirect;
 
@@ -14,16 +15,13 @@ class AlbumController extends Controller
 {
 
     private $fileservice;
-    public function __construct(FileService $file)
+    private $thumbor;
+
+    public function __construct(FileService $file, ThumborService $thumbor)
     {
         $this->fileservice = $file;
+        $this->thumbor = $thumbor;
     }
-
-    //renvoi le lien vers thumbor de l'image
-    private function getImgLink($file,$resolution=""){
-        $file = str_replace('/mydata/','',$file);
-        return "/convert/unsafe/".$resolution.'/'.$file;
-      }
 
     /**
      * Show the application dashboard.
@@ -86,9 +84,9 @@ class AlbumController extends Controller
 
         foreach($album->photos as $file){
             $file->img_links = [
-                "small" => $this->getImgLink($file['path'],"640x360"),
-                "big" => $this->getImgLink($file['path'],"1920x1080"),
-                "full" => $this->getImgLink($file['path'],"0x0")
+                "small" => $this->thumbor->getImgLink($file['path'],"640x360"),
+                "big" => $this->thumbor->getImgLink($file['path'],"1920x1080"),
+                "full" => $this->thumbor->getImgLink($file['path'],"0x0")
             ];
         }
 
