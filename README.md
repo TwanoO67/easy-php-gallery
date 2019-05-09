@@ -2,7 +2,11 @@
 
 [![Build Status](https://travis-ci.org/TwanoO67/easy-php-gallery.svg?branch=develop)](https://travis-ci.org/TwanoO67/easy-php-gallery)
 
+## Demo
+
 [![Preview](https://github.com/TwanoO67/easy-php-gallery/raw/master/demo.png)](https://youtu.be/W7Ff-VXIsFQ)
+
+Demonstration of the tagging process: [EPG Tagging on Youtube](https://youtu.be/W7Ff-VXIsFQ)
 
 ## Feature
 
@@ -12,14 +16,16 @@
 * [x] Search / Tagging with TensorFlowJS AI
 * [x] Create Dir, Delete, Move files
 * [x] Let them Upload new photos
-* [ ] Create virtual albums
-* [ ] Sharing with friends (publicly or private)
+* [x] Create virtual albums
+* [ ] Sharing with friends (publicly, limited or private)
+* [ ] Limit visibility of files only to admin
 * [ ] Detect human faces and regroup
-* [ ] Map of your GPS coordinates
+* [ ] Map of your picture's GPS coordinates
+* [ ] Fully tested API with PHPUnit
+* [ ] Fully tested feature with Cypress
 
-
-This project use your pictures in your server in read-only.
-So you can order it on your disk as you want. Finally!
+BTW: This project doesn't need to move your picture in order to work.
+So you can keep them ordered on your disk as you want. Finally!
 
 ## Installation
 
@@ -33,28 +39,27 @@ Prepare your config, and edit to set the APP_URL (using the port you choose earl
 `cp src/.env.example src/.env`
 
 Install dependencies
-
-``` source enter.sh
-./init.sh ```
+`source enter.sh`
+`./init.sh `
 
 
 
 ## Setup
 
-1) Register a new account
+1) Register a new account with your email
 
-2) Connect using this account :
+2) Then Connect using this account :
 
 email: admin@easyphpgallery.io
 password: secret
 
-3) Use the default credential to set your new user as admin
+3) Using the admin account go to "administration" and to set your new user as admin
 
-4) Then disconnect and use your new account to definitively delete this account for security reasons
+4) Then disconnect and use your new account to definitively delete the previous admin account for security reasons
 
 ## Recommandations
 
-To optimize your experience, you can think your mobile phone photo dir with this app, by using sync apps like this:
+To optimize your experience, you can think your mobile phone photo folder with this app, by using sync apps like this:
 
 https://play.google.com/store/apps/details?id=dk.tacit.android.foldersync.lite&hl=fr
 
