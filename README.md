@@ -1,5 +1,9 @@
 # EasyPHPhotoGallery
 
+Photo Gallery for your own NAS server.
+This project use your already existing image folder, and you organize and share its pictures.
+It handle Folders, Tags, Thumbnails, Virtual Albums, Face Detection, and many more to come.
+
 [![Build Status](https://travis-ci.org/TwanoO67/easy-php-gallery.svg?branch=develop)](https://travis-ci.org/TwanoO67/easy-php-gallery)
 
 ## Demo
@@ -11,15 +15,15 @@ Demonstration of the tagging process: [EPG Tagging on Youtube](https://youtu.be/
 ## Feature
 
 * [x] Albums of your local photos
-* [x] Automatic thumbnails with Thumbor
+* [x] On-fly thumbnails resizing and caching with Thumbor
 * [x] SlideShow and Fullscreen pictures
 * [x] Search / Tagging with TensorFlowJS AI
-* [x] Create Dir, Delete, Move files
-* [x] Let them Upload new photos
+* [x] Create folder, Delete, Move files
+* [x] Upload new photos with shunked transfer
 * [x] Create virtual albums
 * [ ] Sharing with friends (publicly, limited or private)
 * [ ] Limit visibility of files only to admin
-* [ ] Detect human faces and regroup
+* [ ] Detection and recognition of human faces and regroup pictures by people
 * [ ] Map of your picture's GPS coordinates
 * [ ] Fully tested API with PHPUnit
 * [ ] Fully tested feature with Cypress
