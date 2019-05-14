@@ -37,9 +37,12 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 #Ajout de node
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt-get install -y nodejs cmake
 
-
+#copy du code
 COPY src /var/www/html
+RUN rm -f /var/www/html/.env && rm -rf /var/www/html/storage/* && rm -rf /var/www/html/bootstrap/cache/*
+
 COPY vhosts /etc/apache2/sites-enabled
 COPY tensorflow /var/www/tensorflow
 
+#installation des dependances
 RUN ./init.sh

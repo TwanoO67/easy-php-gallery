@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="tab-pane" role="tabpanel" id="complete">
-                        <h3>Compiler</h3>
+                        <h3>Installation</h3>
                         <div class="bs-calltoaction bs-calltoaction-primary">
                             <div class="row">
                                 <div class="col-md-12 cta-contents">

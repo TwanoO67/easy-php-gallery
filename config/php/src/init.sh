@@ -1,6 +1,7 @@
 #!/bin/bash
 echo "Ouverture des droits"
-chmod -R 777 /var/www/html
+chmod -R 777 /var/www/html/storage
+chmod -R 777 /var/www/html/bootstrap
 
 echo "Installation des dépendeances"
 composer install
