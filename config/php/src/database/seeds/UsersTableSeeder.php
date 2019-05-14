@@ -18,11 +18,5 @@ class UsersTableSeeder extends Seeder
           'email' => "admin@easyphpgallery.io",
           'password' => bcrypt('secret'),
       ]);
-
-      DB::table('folders')->insert([
-          'user_id' => 1,
-          'directory' => '/',
-          'access_level' => 'R'
-      ]);
     }
 }

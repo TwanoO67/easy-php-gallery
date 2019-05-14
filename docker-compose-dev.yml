@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+   
+   php:
+     volumes:
+     - "${PHOTO_DIR}:/mydata"
+     #for developpement purpose
+     - ./config/php/src:/var/www/html
+     - ./config/php/tensorflow:/var/www/tensorflow
+     - ./config/php/vhosts:/etc/apache2/sites-enabled
+
+   mongo-express:
+    container_name: EPG_mongo_express
+    image: mongo-express
+    restart: always
+    depends_on:
+       - mongodb
+    ports:
+      - 0:8081
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: easyphpgallery
+      ME_CONFIG_MONGODB_ADMINPASSWORD: easyphpgallery

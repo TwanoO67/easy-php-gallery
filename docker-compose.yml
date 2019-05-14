@@ -23,29 +23,11 @@ services:
      build: ./config/php
      volumes:
      - "${PHOTO_DIR}:/mydata"
-     #for developpement purpose
-     - ./src:/var/www/html
-     - ./tensorflow:/var/www/tensorflow
-     - ./config/php/vhosts:/etc/apache2/sites-enabled
      restart: always
      links:
        - thumbor
      ports:
        - "${APP_PORT}:80"
-
-#   nginx:
-#     container_name: EPG_nginx
-#     depends_on:
-#       - php
-#     image: nginx:stable-alpine
-#     ports:
-#       - "${APP_PORT}:80"
-#     volumes:
-#       - ./config/nginx/default.conf:/etc/nginx/conf.d/default.conf
-#     restart: always
-#     links:
-#       - thumbor
-#       - php
 
    mongodb:
      container_name: EPG_mongodb
@@ -54,15 +36,3 @@ services:
       MONGO_INITDB_ROOT_USERNAME: easyphpgallery
       MONGO_INITDB_ROOT_PASSWORD: easyphpgallery
 
-   mongo-express:
-    container_name: EPG_mongo_express
-    image: mongo-express
-    restart: always
-    depends_on:
-       - mongodb
-    ports:
-      - 0:8081
-    environment:
-      ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_ADMINUSERNAME: easyphpgallery
-      ME_CONFIG_MONGODB_ADMINPASSWORD: easyphpgallery

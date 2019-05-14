@@ -1,10 +1,11 @@
 /node_modules
-/public/storage
 /public/hot
+/public/storage
 /storage/*.key
 /vendor
-/.idea
+.env
+.phpunit.result.cache
 Homestead.json
 Homestead.yaml
-.env
-database.sqlite
+npm-debug.log
+yarn-error.log

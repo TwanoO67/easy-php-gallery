@@ -11,30 +11,33 @@
 |
 */
 
-Route::group(['middleware' => ['auth']], function () {
-  Route::get('/', 'HomeController@index');
+Route::get('/', function () {
+    return view('welcome');
 });
 
 Auth::routes();
 
-Route::group(['middleware' => ['auth','admin']], function () {
-    Route::get('/admin', 'Admin@list');
+Route::middleware('auth')->group(function () {
 
-    Route::get('/admin/set/user/{id}/{bool}', 'Admin@setAdmin');
-    Route::get('/admin/delete/user/{id}', 'Admin@deleteUser');
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/gallery', 'GalleryController@index')->name('gallery');
+    Route::get('/gallery/{dossier}', 'GalleryController@index')->name('gallery_sub');
 
-    Route::post('/folder', 'FolderController@store')->name('folder_create');
-    Route::get('/folder/delete/{id}', 'FolderController@delete')->name('folder_delete');
+    Route::get('/admin', 'AdminController@list')->name('admin');
+    Route::get('/admin/set/user/{id}/{bool}', 'AdminController@setAdmin');
+    Route::get('/admin/delete/user/{id}', 'AdminController@deleteUser');
+    Route::get('/admin/autocomplete', 'AdminController@autocomplete');
 
-    Route::get('/admin/autocomplete', 'Admin@autocomplete');
+    Route::get('/albums', 'AlbumController@index')->name('albums');
+    Route::get('/album/{id}', 'AlbumController@album')->name('album');
+    Route::post('/album', 'AlbumController@store')->name('album_create');
+    Route::get('/album/delete/{id}', 'AlbumController@delete')->name('album_delete');
+
+    Route::get('/tags', 'TagController@index')->name('tags');
+    Route::get('/tags/{id}', 'TagController@tag')->name('tag');
+
+    Route::get('/map', 'MapController@index')->name('map');
+
+
 
 });
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/gallery/{id}', "Gallery@index");
-    Route::get('/gallery/{id}/{dossier}', "Gallery@index");
-
-});
-
-
-Route::get('/home', 'HomeController@index');
