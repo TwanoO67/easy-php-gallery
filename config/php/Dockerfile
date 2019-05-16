@@ -39,7 +39,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && apt-get install -y 
 
 #copy du code
 COPY src /var/www/html
-RUN rm -f /var/www/html/.env && rm -rf /var/www/html/storage/* && rm -rf /var/www/html/bootstrap/cache/*
+RUN rm -f /var/www/html/.env
 
 COPY vhosts /etc/apache2/sites-enabled
 COPY tensorflow /var/www/tensorflow

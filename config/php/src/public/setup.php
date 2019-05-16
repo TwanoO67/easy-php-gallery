@@ -94,7 +94,7 @@
                         <div class="bs-calltoaction bs-calltoaction-primary">
                             <div class="row">
                                 <div class="col-md-12 cta-contents">
-                                    <h1 class="cta-title">Quelle est votre URL externe ?</h1>
+                                    <h1 class="cta-title">URL externe</h1>
                                     <div class="cta-desc">
                                         <p>Depuis quelle URL allez vous accèder au site ?<br/>
                                             <br/>
@@ -118,7 +118,11 @@
                                     <h1 class="cta-title">Installation en cours</h1>
                                     <div class="cta-desc">
                                         <p>
-                                          Votre version personnalisée est en cours  d'installation'.<br/>
+                                            <br/>
+                                          <div class="loading"></div><br/>
+                                          <br/>
+                                          Easy Photo Gallery est en cours d'installation.<br/>
+                                          <br/>
                                           A la fin de celle-ci la page se rechargera automatiquement.
                                         </p>
                                     </div>
@@ -486,6 +490,39 @@ blockquote {
 }
 
 
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -60px 0 0 -60px;
+  background: #fff;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  border: 10px solid #19bee1;
+}
+.loading:after {
+  content: '';
+  background: trasparent;
+  width: 140%;
+  height: 140%;
+  position: absolute;
+  border-radius: 100%;
+  top: -20%;
+  left: -20%;
+  opacity: 0.7;
+  box-shadow: rgba(255, 255, 255, 0.6) -4px -5px 3px -3px;
+  animation: rotate 2s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
 </style>
 
 </body>

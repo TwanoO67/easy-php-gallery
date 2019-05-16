@@ -4,10 +4,7 @@ services:
   - docker
 
 before_install:
-- cp .env.example .env
-- sed -i -e "s#PHOTO_DIR=/home/weber/Images/#PHOTO_DIR=/#g" .env
-- cp src/.env.example src/.env
-- docker-compose run php bash -c "/var/www/html/init.sh"
+- docker-compose run php bash -c "/var/www/html/build.sh"
 
 script:
 - docker-compose run php bash -c "composer run test"
