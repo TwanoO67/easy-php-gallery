@@ -4,6 +4,7 @@ services:
   - docker
 
 before_install:
+- cp .env.example .env
 - docker-compose run php bash -c "/var/www/html/build.sh"
 
 script:
