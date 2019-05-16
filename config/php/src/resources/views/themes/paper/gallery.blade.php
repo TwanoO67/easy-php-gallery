@@ -33,7 +33,7 @@
   <a href="{{$parent}}" class="btn btn-default explore">Retour</a>&nbsp;&nbsp;&nbsp;
   @endif
 
-  <a class="navbar-brand" href="#">{{ $title }}</a> 
+  <a class="navbar-brand" href="#">{{ $title }}</a>
   <button class="btn btn-primary btn-sm" onclick="deleteCurrent()">
     <i class="fas fa-trash"></i>
   </button>
@@ -248,19 +248,23 @@
     }
 
     function getSelectedFiles(){
-      //recuperation des fichiers de la galleries
-      var data = $('#your_nanogallery2').nanogallery2('data');
-      var files = data.items.filter(function(item){
-        if(item.$elt && item.$elt[0].className === "nGY2GThumbnail active"){
-          return true;
-        }
-        return false;
-      });
-
-      files = files.map(function(gal_item){
-        let url = gal_item.src.replace('/convert/unsafe/0x0','');
-        return url;
-      });
+      var files = [];
+      //s'il y a des fichiers dans la gallery courante
+      if($('#your_nanogallery2').length > 0){
+        //recuperation des fichiers de la galleries
+        var data = $('#your_nanogallery2').nanogallery2('data');
+        files = data.items.filter(function(item){
+            if(item.$elt && item.$elt[0].className === "nGY2GThumbnail active"){
+                return true;
+            }
+            return false;
+        });
+        //conversion des src vers le path
+        files = files.map(function(gal_item){
+            let url = gal_item.src.replace('/convert/unsafe/0x0','');
+            return url;
+        });
+      }
 
       return files;
     }
@@ -366,7 +370,7 @@
           'directories': [ directory ]
         }
         deleteApi(myJSObject);
-        
+
       }
     }
 
@@ -383,7 +387,7 @@
           'directories': selected_dir
         }
         deleteApi(myJSObject);
-        
+
       }
 
     }
