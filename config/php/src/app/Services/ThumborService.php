@@ -29,9 +29,7 @@ class ThumborService
     //renvoi le lien vers thumbor de l'image
     public function getImgLink($file,$resolution="0x0"){
         $file = str_replace('/mydata/','',$file);
-        //return "/convert/unsafe/".$resolution.'/'.$file;
-        $file = str_replace(' ','%20',$file);//
-        $file = urlencode($file);
+        $file = str_replace(' ','%20',$file);
 
         $dimension = explode('x',$resolution);
 
