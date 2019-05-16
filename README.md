@@ -23,6 +23,7 @@ Demonstration of the tagging process: [EPG Tagging on Youtube](https://youtu.be/
 * [x] Create folder, Delete, Move files
 * [x] Upload new photos with shunked transfer
 * [x] Create virtual albums
+* [ ] Provide as Dockerapp for easy install
 * [ ] Sharing with friends (publicly, limited or private)
 * [ ] Limit visibility of files only to admin
 * [ ] Detection and recognition of human faces and regroup pictures by people
