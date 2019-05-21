@@ -34,25 +34,38 @@
   @endif
 
   <a class="navbar-brand" href="#">{{ $title }}</a>
-  <button class="btn btn-primary btn-sm" onclick="deleteCurrent()">
+
+  <button class="btn btn-danger btn-sm" onclick="deleteCurrent()" title="Supprimer le dossier courant">
     <i class="fas fa-trash"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-warning btn-sm" onclick="startScan()" title="Scanner le dossier">
+    <i class="fab fa-searchengin"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-default btn-sm" id='btn_selection' onclick="toggleSelectionMode()" title="Activer la selection">
+    <i class="fas fa-hand-pointer"></i>
+  </button>
+  &nbsp;&nbsp;
+  <button class="btn btn-primary btn-sm" id='btn_dir_create' onclick="createSubdir()" title="Creer un dossier">
+    <i class="fas fa-folder-plus"></i>
   </button>
 @endsection
 
 @section('content')
 
 <div class="content">
-    <div class="row">
+
+    <div class="row" id="panel_selection">
       <div class="col-md-12">
         <div class="card ">
+          <div class="card-header ">
+             <span class="card-title">Mode Selection <button class="btn btn-default btn-sm" onclick="toggleSelectionMode()"><i class="fas fa-times"> </i></button></span>
+          </div>
           <div class="card-body">
-            <button class="btn btn-primary btn-sm" onclick="startScan()">
-              <i class="fab fa-searchengin"></i> Scanner le dossier
+            <button class="btn btn-primary btn-sm" id='btn_dir_create' onclick="createSubdirWithSelection()" >
+                <i class="fas fa-folder-plus"></i> Créer un dossier avec la selection
             </button>
-
-            <button class="btn btn-primary btn-sm" id='btn_selection' onclick="toggleSelectionMode()" ></button>
-
-            <button class="btn btn-primary btn-sm" id='btn_dir_create' onclick="createSubdir()" ></button>
 
             <button class="btn btn-primary btn-sm" id='btn_move' onclick="moveFiles()">
               <i class="fas fa-arrows-alt"></i> Deplacer
@@ -62,7 +75,7 @@
             <i class="fas fa-arrows-alt"></i> Ajouter à l'album
             </button>
 
-            <button class="btn btn-primary btn-sm" id='btn_delete' onclick="deleteFiles()">
+            <button class="btn btn-danger btn-sm" id='btn_delete' onclick="deleteFiles()">
               <i class="fas fa-trash"></i> Supprimer
             </button>
           </div>
@@ -463,44 +476,31 @@
 
     }
 
-    async function createSubdir(){
-      var selected = getSelectedList();
-
-    const {value: name} = await Swal.fire({
-        title: "Quel nom donner au dossier ?",
-        input: 'text',
-        inputPlaceholder: 'dossier'
-    })
-
-      if(!name || name.length === 0){
-        return false;
-      }
-
-      var myJSObject = {
-        'new_directory': directory+'/'+name,
-        'files': selected
-      }
-      moveToDirAPI(myJSObject);
+    async function createSubdirWithSelection(){
+        var selected = getSelectedList();
+        await createSubdir(selected);
     }
 
-    btn_mode_selection = $('#btn_selection');
+    async function createSubdir(selected = []){
+        const {value: name} = await Swal.fire({
+            title: "Quel nom donner au dossier ?",
+            input: 'text',
+            inputPlaceholder: 'dossier'
+        })
 
-    label_mode_selection_on='<i class="fas fa-hand-pointer"></i> Mode selection';
-    label_mode_selection_off='<i class="fas fa-hand-pointer"></i> Desactiver la selection';
+        if(!name || name.length === 0){
+            return false;
+        }
 
-    btn_dir_create = $('#btn_dir_create');
-    label_create_single='<i class="fas fa-folder-plus"></i> Créer un dossier';
-    label_create_and_fill='<i class="fas fa-folder-plus"></i> Créer un dossier avec la selection';
+        var myJSObject = {
+            'new_directory': directory+'/'+name,
+            'files': selected
+        }
+        moveToDirAPI(myJSObject);
+    }
 
-    btn_move = $('#btn_move');
-    btn_delete = $('#btn_delete');
-    btn_album = $('#btn_album');
-
-    btn_mode_selection.html(label_mode_selection_on);
-    btn_dir_create.html(label_create_single);
-    btn_move.hide();
-    btn_delete.hide();
-    btn_album.hide();
+    panel_selection = $('#panel_selection');
+    panel_selection.hide();
 
     function toggleSelectionMode(){
         if(subdir_enabled){
@@ -510,19 +510,11 @@
             getSelectedFilesHTML().removeClass('active');
             updateActiveSubDirs();
             updateActiveFiles();
-            btn_mode_selection.html(label_mode_selection_on);
-            btn_dir_create.html(label_create_single);
-            btn_move.hide();
-            btn_delete.hide();
-            btn_album.hide();
+            panel_selection.hide();
         } else {
             subdir_selection.enable();
             file_selection.enable();
-            btn_mode_selection.html(label_mode_selection_off);
-            btn_dir_create.html(label_create_and_fill);
-            btn_move.show();
-            btn_delete.show();
-            btn_album.show();
+            panel_selection.show();
         }
         subdir_enabled = !subdir_enabled;
     }
