@@ -115,7 +115,7 @@
           <div class="card-header ">
             <h5 class="card-title">Ajouter vos fichiers</h5>
           </div>
-          <div class="card-body ">
+          <div class="card-body" style="max-height: 200px; overflow: scroll;">
             <div id="drag-drop-area"></div>
           </div>
         </div>
