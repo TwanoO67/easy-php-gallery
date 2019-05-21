@@ -26,12 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin', 'AdminController@list')->name('admin');
     Route::get('/admin/set/user/{id}/{bool}', 'AdminController@setAdmin');
     Route::get('/admin/delete/user/{id}', 'AdminController@deleteUser');
-    Route::get('/admin/autocomplete', 'AdminController@autocomplete');
+    Route::get('/admin/autocomplete', 'AdminController@autocomplete')->name('storage_autocomplete');
 
     Route::get('/albums', 'AlbumController@index')->name('albums');
     Route::get('/album/{id}', 'AlbumController@album')->name('album');
-    Route::post('/album', 'AlbumController@store')->name('album_create');
-    Route::get('/album/delete/{id}', 'AlbumController@delete')->name('album_delete');
 
     Route::get('/tags', 'TagController@index')->name('tags');
     Route::get('/tags/{id}', 'TagController@tag')->name('tag');

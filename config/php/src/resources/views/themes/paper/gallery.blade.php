@@ -261,8 +261,8 @@
         });
         //conversion des src vers le path
         files = files.map(function(gal_item){
-            let url = gal_item.src.replace('/convert/unsafe/0x0','');
-            return url;
+            let tab = gal_item.src.split('/');
+            return tab.slice(6).join('/');
         });
       }
 

@@ -62,7 +62,7 @@ class AlbumController extends Controller
         $album = Album::findOrFail($data['album_id']);
 
         $photos = Photo::whereIn('path', array_map(array($this, 'fullPath'),$data['files']) )->get();
-    
+
         foreach($photos as $photo){
             $album->photos()->save($photo);
         }
@@ -100,7 +100,10 @@ class AlbumController extends Controller
     {
         $data = $request->all();
         $validator = Validator::make($data, [
-            'access_level' => 'required|string'
+            'name' => 'required',
+            'theme' => 'required',
+            'access_level' => 'required|string',
+            'directory' => 'required_if:access_level,RW'
         ]);
 
         if ($validator->fails()) {
@@ -113,24 +116,24 @@ class AlbumController extends Controller
 
         // store
         $new_album = new Album();
-        $new_album->user_id = Auth::user()->id;
+        //$new_album->user_id = Auth::user()->id;
         $new_album->upload_directory = $dossier;
         $new_album->access_level = $data['access_level'];
         $new_album->name = $data['name'];
         $new_album->theme = $data['theme'];
         $new_album->save();
 
-        return Redirect::to('admin');
+        return response()->json($new_album, 201);
 
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-
-        $album = Album::find($id);
+        $data = $request->all();
+        $album = Album::findOrFail($data['id']);
         $album->delete();
 
-        return Redirect::to('admin');
+        return response()->json($album, 200);
 
     }
 }

@@ -20,6 +20,9 @@ Route::post('/file/upload', 'APIController@file_upload')->name('file_upload');
 Route::post('/storage/create', 'StorageController@create')->name('storage_create');
 Route::post('/storage/delete', 'StorageController@delete')->name('storage_delete');
 
+Route::post('/album', 'AlbumController@store')->name('album_create');
+Route::post('/album/delete', 'AlbumController@delete')->name('album_delete');
+
 
 Route::post('/album/files', 'AlbumController@album_files')->name('album_files');
 

@@ -46,7 +46,7 @@ class AdminController extends Controller
       $matchingFiles = preg_grep("/$term/i", $all);
 
 
-      //$directories = ['/' => '/'];
+      $directories = ['/' => '/'];
       //preparation des dossiers
       foreach ($matchingFiles as $num => $dir) {
         //if( strpos(strtolower($dir), $term) ){
