@@ -44,10 +44,10 @@ Choose your http port, and the main folder to share
 `cp .env.example .env; vi .env`
 
 Launch the project
-`docker-compose up -d`
+`./dcp-prod up -d`
 
 Prepare your config, and edit to set the APP_URL (using the port you choose earlier)
-`cp src/.env.example src/.env`
+`cp config/php/src/.env.example config/php/src/.env`
 
 Install dependencies
 `source enter.sh`
@@ -73,6 +73,11 @@ password: secret
 To optimize your experience, you can sync your mobile phone photo folder with this app, by using apps like:
 
 https://play.google.com/store/apps/details?id=dk.tacit.android.foldersync.lite&hl=fr
+
+## Developpement 
+
+Start a developpement server:
+`./dcp-dev`
 
 ## Source
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "Installation des dépendeances api"
 cd /var/www/html
 composer install --no-scripts
