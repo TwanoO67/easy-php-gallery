@@ -25,7 +25,7 @@ libxrender1 \
 mariadb-client \
 cron \
 inetutils-ping \
-#libcurl4-openssl-dev pkg-config libssl-dev \
+libcurl4-openssl-dev pkg-config libssl-dev \
 #mysql-client \
 telnet
 

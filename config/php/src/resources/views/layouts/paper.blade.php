@@ -88,7 +88,7 @@
           <li class="active-pro">
             <a href="https://github.com/TwanoO67/easy-php-gallery">
               <i class="nc-icon nc-spaceship"></i>
-              <p>Githut</p>
+              <p>Github</p>
             </a>
           </li>
         </ul>
